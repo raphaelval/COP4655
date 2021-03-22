@@ -6,17 +6,23 @@
         android:enabled="true"
         android:icon="@drawable/ic_action_results"
         android:title="Results"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+        />
     <item
         android:id="@+id/action_map"
         android:enabled="true"
         android:icon="@drawable/ic_action_map"
         android:title="Map"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+        />
+
     <item
         android:id="@+id/action_history"
         android:enabled="true"
         android:icon="@drawable/ic_action_history"
         android:title="History"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+        />
+
+
 </menu>
