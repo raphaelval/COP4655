@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ResultsActivity extends AppCompatActivity {
-    /*TextView tempView;
+    TextView tempView;
     TextView feelslikeView;
     TextView humidityView;
     TextView latlonView;
@@ -21,12 +21,12 @@ public class ResultsActivity extends AppCompatActivity {
     TextView descView;
     TextView minView;
     TextView maxView;
-    TextView windView;*/
+    TextView windView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
-        /*getSupportActionBar().hide();
+
         tempView = (TextView) findViewById(R.id.tempView);
         feelslikeView = (TextView) findViewById(R.id.feelslikeView);
         humidityView = (TextView) findViewById(R.id.humidityView);
@@ -37,7 +37,7 @@ public class ResultsActivity extends AppCompatActivity {
         maxView = (TextView) findViewById(R.id.maxView);
         windView = (TextView) findViewById(R.id.windView);
 
-        displayResults();*/
+        displayResults();
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -49,6 +49,7 @@ public class ResultsActivity extends AppCompatActivity {
                         break;
                     case R.id.action_map:
                         Toast.makeText(ResultsActivity.this, "Map", Toast.LENGTH_SHORT).show();
+                        mapsPage();
                         break;
                     case R.id.action_history:
                         Toast.makeText(ResultsActivity.this, "History", Toast.LENGTH_SHORT).show();
@@ -58,7 +59,7 @@ public class ResultsActivity extends AppCompatActivity {
             }
         });
     }
-/*
+
     public void displayResults() {
         countryView.setText("Weather for " + MainActivity.citystate + ", " + MainActivity.country);
         tempView.setText("Temperature: " + String.valueOf(Math.round(KtoF(Double.parseDouble(MainActivity.temp)))) + " F");
@@ -113,8 +114,8 @@ public class ResultsActivity extends AppCompatActivity {
         String cap = k.substring(0, 1).toUpperCase() + k.substring(1);
         return cap;
     }
-    public void mapPage(View view) {
-        Intent intent = new Intent(this, MapActivity.class);
+    public void mapsPage() {
+        Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
-    }*/
+    }
 }

@@ -141,10 +141,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:itemBackground="@color/darkgray"
-        app:itemIconTint="@color/white"
+        app:itemBackground="@color/backgroundblue"
+        app:itemIconTint="@color/paletteyellow"
         app:itemTextColor="@android:color/white"
-        app:menu="@menu/bottom_nav_menu" />
+        app:menu="@menu/bottom_nav_menu"
+        app:itemRippleColor="@color/paletteyellow"/>
+
 
     <TextView
         android:id="@+id/textView"
