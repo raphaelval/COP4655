@@ -11,10 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="#FFFFFF"
+        app:backgroundTint="#FFC107"
         app:itemBackground="@color/backgroundblue"
-        app:itemIconTint="@color/paletteyellow"
+        app:itemRippleColor="#155A87"
         app:itemTextColor="@android:color/white"
-        app:menu="@menu/bottom_nav_menu" />
+        app:menu="@menu/bottom_nav_menu_results" />
 
     <TextView
         android:id="@+id/textView"
