@@ -45,4 +45,3 @@ public class MapsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 }
-//END OF PROGRAM
