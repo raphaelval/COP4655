@@ -135,11 +135,11 @@ public class ResultsActivity extends AppCompatActivity {
     public void onTTSClick(View v) {
         String toSpeak = countryView.getText().toString() + ", ";
         toSpeak += tempView.getText().toString() + ", ";
-        toSpeak += feelslikeView.getText().toString() + ", , ,";
-        toSpeak += minView.getText().toString() + ", , ,";
-        toSpeak += maxView.getText().toString() + ", , ,";
-        toSpeak += latlonView.getText().toString() + ", , ,";
-        toSpeak += humidityView.getText().toString() + ", , ,";
+        toSpeak += feelslikeView.getText().toString() + ", ";
+        toSpeak += minView.getText().toString() + ", ";
+        toSpeak += maxView.getText().toString() + ", ";
+        toSpeak += latlonView.getText().toString() + ", ";
+        toSpeak += humidityView.getText().toString() + ", ";
         toSpeak += windView.getText().toString() + ", ";
         toSpeak += descView.getText().toString() + ", ";
         //Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_LONG).show();

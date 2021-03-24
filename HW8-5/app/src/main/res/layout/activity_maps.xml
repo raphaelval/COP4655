@@ -40,5 +40,5 @@
         android:id="@+id/fragment"
         android:name="com.example.compoundweatherapp.MapsFragment"
         android:layout_width="match_parent"
-        android:layout_height="490dp" />
+        android:layout_height="598dp" />
 </RelativeLayout>
