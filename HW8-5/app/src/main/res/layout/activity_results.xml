@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_alignParentBottom="false">
@@ -18,7 +19,6 @@
         android:layout_marginBottom="16dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -134,6 +134,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/windView" />
+
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -142,8 +143,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:itemBackground="@color/backgroundblue"
+        app:itemIconTint="@color/paletteyellow"
         app:itemTextColor="@android:color/white"
-        app:menu="@menu/bottom_nav_menu_results" />
+        app:menu="@menu/bottom_nav_menu_results" >
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     <TextView
         android:id="@+id/textView"
@@ -153,6 +157,22 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
         android:text="@string/student_id" />
+
+    <ImageView
+        android:id="@+id/TextToSpeech"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:contentDescription="Text to speech"
+        android:onClick="onTTSClick"
+        android:padding="15dp"
+        android:scaleX="2"
+        android:scaleY="2"
+        app:srcCompat="@drawable/ic_action_tts"
+        app:tint="@color/paletteyellow"
+        tools:ignore="VectorDrawableCompat" />
 
     <TextView
         android:id="@+id/textView2"

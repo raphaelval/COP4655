@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -12,7 +13,10 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Locale;
+
 public class ResultsActivity extends AppCompatActivity {
+    TextToSpeech t1;
     TextView tempView;
     TextView feelslikeView;
     TextView humidityView;
@@ -26,6 +30,15 @@ public class ResultsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
+
+        t1=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    t1.setLanguage(Locale.US);
+                }
+            }
+        });
 
         tempView = (TextView) findViewById(R.id.tempView);
         feelslikeView = (TextView) findViewById(R.id.feelslikeView);
@@ -65,11 +78,12 @@ public class ResultsActivity extends AppCompatActivity {
         tempView.setText("Temperature: " + String.valueOf(Math.round(KtoF(Double.parseDouble(MainActivity.temp)))) + " F");
         feelslikeView.setText("Feels like: " + String.valueOf(Math.round(KtoF(Double.parseDouble(MainActivity.feelslike)))) + " F");
         humidityView.setText("Humidity: " + MainActivity.humidity + "%");
-        latlonView.setText("Lat: " + MainActivity.lat + " Lon: " + MainActivity.lon);
+        latlonView.setText("Lat: " + MainActivity.lat + ", Lon: " + MainActivity.lon);
         minView.setText("Min: " + String.valueOf(Math.round(KtoF(Double.parseDouble(MainActivity.min)))) + " F");
-        maxView.setText("Min: " + String.valueOf(Math.round(KtoF(Double.parseDouble(MainActivity.max)))) + " F");
+        maxView.setText("Max: " + String.valueOf(Math.round(KtoF(Double.parseDouble(MainActivity.max)))) + " F");
         windView.setText("Wind: " + String.valueOf(Math.round(toMPH(Double.parseDouble(MainActivity.windSpeed)))) + " MPH " + toDir(Integer.parseInt(MainActivity.windDir)));
         descView.setText(capitalize(MainActivity.description));
+
     }
     public void goBack(View view) {
         Intent main = new Intent(this, MainActivity.class);
@@ -117,5 +131,25 @@ public class ResultsActivity extends AppCompatActivity {
     public void mapsPage() {
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
+    }
+    public void onTTSClick(View v) {
+        String toSpeak = countryView.getText().toString() + ", ";
+        toSpeak += tempView.getText().toString() + ", ";
+        toSpeak += feelslikeView.getText().toString() + ", , ,";
+        toSpeak += minView.getText().toString() + ", , ,";
+        toSpeak += maxView.getText().toString() + ", , ,";
+        toSpeak += latlonView.getText().toString() + ", , ,";
+        toSpeak += humidityView.getText().toString() + ", , ,";
+        toSpeak += windView.getText().toString() + ", ";
+        toSpeak += descView.getText().toString() + ", ";
+        //Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_LONG).show();
+        t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+    }
+    public void onPause(){
+        if(t1 !=null){
+            t1.stop();
+            t1.shutdown();
+        }
+        super.onPause();
     }
 }
