@@ -13,7 +13,14 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class ResultsActivity extends AppCompatActivity {
     TextToSpeech t1;
@@ -26,6 +33,7 @@ public class ResultsActivity extends AppCompatActivity {
     TextView minView;
     TextView maxView;
     TextView windView;
+    TextView timeView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +57,7 @@ public class ResultsActivity extends AppCompatActivity {
         minView = (TextView) findViewById(R.id.minView);
         maxView = (TextView) findViewById(R.id.maxView);
         windView = (TextView) findViewById(R.id.windView);
+        timeView = (TextView) findViewById(R.id.timeView);
 
         displayResults();
 
@@ -66,6 +75,7 @@ public class ResultsActivity extends AppCompatActivity {
                         break;
                     case R.id.action_history:
                         Toast.makeText(ResultsActivity.this, "History", Toast.LENGTH_SHORT).show();
+                        historyPage();
                         break;
                 }
                 return true;
@@ -83,6 +93,11 @@ public class ResultsActivity extends AppCompatActivity {
         maxView.setText("Max: " + String.valueOf(Math.round(KtoF(Double.parseDouble(MainActivity.max)))) + " F");
         windView.setText("Wind: " + String.valueOf(Math.round(toMPH(Double.parseDouble(MainActivity.windSpeed)))) + " MPH " + toDir(Integer.parseInt(MainActivity.windDir)));
         descView.setText(capitalize(MainActivity.description));
+        long dateInMil = Long.parseLong(MainActivity.time);
+        Date date = new Date(Long.valueOf(dateInMil*1000L));
+        SimpleDateFormat myDate = new SimpleDateFormat("EEE, MMM d, h:mm a");
+        String currentTime = myDate.format(date);
+        timeView.setText(currentTime);
 
     }
     public void goBack(View view) {
@@ -130,6 +145,10 @@ public class ResultsActivity extends AppCompatActivity {
     }
     public void mapsPage() {
         Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+    }
+    public void historyPage() {
+        Intent intent = new Intent(this, HistoryActivity.class);
         startActivity(intent);
     }
     public void onTTSClick(View v) {

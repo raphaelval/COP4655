@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     public static String max;
     public static String windSpeed;
     public static String windDir;
+    public static String time;
     String WEATHER_API_KEY = "6938d49123ca790b7478ad0bb5f8d100";
     String url;
     Button resultsBtn;
@@ -120,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject wind = jsonObject.getJSONObject("wind");
                             windSpeed = wind.getString("speed");
                             windDir = wind.getString("deg");
+                            time = jsonObject.getString("dt");
                         }catch (JSONException err){
                             Log.d("Error", err.toString());
                         }
