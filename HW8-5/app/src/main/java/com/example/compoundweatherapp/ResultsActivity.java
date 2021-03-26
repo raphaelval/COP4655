@@ -98,7 +98,7 @@ public class ResultsActivity extends AppCompatActivity {
         SimpleDateFormat myDate = new SimpleDateFormat("EEE, MMM d, h:mm a");
         String currentTime = myDate.format(date);
         timeView.setText(currentTime);
-
+        //
     }
     public void goBack(View view) {
         Intent main = new Intent(this, MainActivity.class);

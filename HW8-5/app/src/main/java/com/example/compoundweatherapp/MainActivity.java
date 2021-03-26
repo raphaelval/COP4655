@@ -26,7 +26,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     public static String windSpeed;
     public static String windDir;
     public static String time;
+
     String WEATHER_API_KEY = "6938d49123ca790b7478ad0bb5f8d100";
     String url;
     Button resultsBtn;
@@ -70,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this, new String[]{mPermission},
                         REQUEST_CODE_PERMISSION);
 
-                // If any permission above not allowed by user, this condition will execute every time, else your else part will work
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         getWeather(view);
-
     }
     public void getWeather(View view) {
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -100,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
                         // textView.setText("Response is: " + response);
-                        System.out.println(response);
+                        //System.out.println(response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONObject main = jsonObject.getJSONObject("main");
@@ -136,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
     }
+
     public void getLocation(View view) {
         // create class object
         gps = new GPSTracker(MainActivity.this);
