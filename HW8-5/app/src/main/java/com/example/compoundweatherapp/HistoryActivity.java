@@ -45,8 +45,7 @@ public class HistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        CustomListAdapter histWeather = new CustomListAdapter(this, dateArray, tempArray, minArray, maxArray,
-                descArray, windSArray, windDArray, humidArray);
+
 
         System.out.println("getting history data");
         long histDate = dateTime;
@@ -57,6 +56,8 @@ public class HistoryActivity extends AppCompatActivity {
         }
         System.out.println("success");
 
+        CustomListAdapter histWeather = new CustomListAdapter(this, dateArray, tempArray, minArray, maxArray,
+                descArray, windSArray, windDArray, humidArray);
 
 
         listView = (ListView) findViewById(R.id.listView);
@@ -107,26 +108,26 @@ public class HistoryActivity extends AppCompatActivity {
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
                                 JSONObject main = jsonObject.getJSONObject("current");
-                                tempArray[i] = main.getString("temp");
+                                tempArray[i] = "Temperature: " + String.valueOf(Math.round(KtoF(Double.parseDouble(main.getString("temp"))))) + " F";
 
-                                long sunrise = Long.parseLong((main.getString("sunrise")));
+                                long sunrise = Long.parseLong(main.getString("sunrise"));
                                 Date sunTime = new Date(Long.valueOf(sunrise * 1000L));
                                 SimpleDateFormat sunTimeForm = new SimpleDateFormat("h:mm a");
                                 String strSunTime = sunTimeForm.format(sunTime);
-                                minArray[i] = strSunTime;
+                                minArray[i] = "Sunrise: " + strSunTime;
 
-                                long sunset = Long.parseLong((main.getString("sunset")));
+                                long sunset = Long.parseLong(main.getString("sunset"));
                                 Date setTime = new Date(Long.valueOf(sunset * 1000L));
                                 SimpleDateFormat setTimeForm = new SimpleDateFormat("h:mm a");
                                 String strSetTime = setTimeForm.format(setTime);
-                                maxArray[i] = strSetTime;
+                                maxArray[i] = "Sunset: " + strSetTime;
 
-                                humidArray[i] = main.getString("humidity");
+                                humidArray[i] = "Humidity: " + main.getString("humidity") + "%";
                                 JSONArray weather = main.getJSONArray("weather");
                                 JSONObject weatherDesc = weather.getJSONObject(0);
-                                descArray[i] = weatherDesc.getString("description");
-                                windSArray[i] = main.getString("wind_speed");
-                                windDArray[i] = main.getString("wind_deg");
+                                descArray[i] = capitalize(weatherDesc.getString("description"));
+                                windSArray[i] = "Wind Speed: " + String.valueOf(Math.round(toMPH(Double.parseDouble(main.getString("wind_speed"))))) + " MPH ";
+                                windDArray[i] = "Wind Direction: " + toDir(Integer.parseInt(main.getString("wind_deg")));
                             } catch (JSONException err) {
                                 Log.d("Error", err.toString());
                             }
@@ -151,5 +152,43 @@ public class HistoryActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ResultsActivity.class);
         startActivity(intent);
     }
+    public static double KtoF(Double k){
+        return ((k - 273.15) * 9/5 + 32);
+    }
+    public static double toMPH (Double k){
 
+        return (k * 2.237);
+    }
+    public static String toDir (int element) {
+        String direction = null;
+        if ((element >= 0 && element < 23) || (element <= 360 && element >= 337)) {
+            direction = "N";
+        }
+        else if (element >= 23 && element < 68) {
+            direction = "NE";
+        }
+        else if (element >= 68 && element < 113) {
+            direction = "E";
+        }
+        else if (element >= 113 && element < 158) {
+            direction = "SE";
+        }
+        else if (element >= 158 && element < 203) {
+            direction = "S";
+        }
+        else if (element >= 203 && element < 248) {
+            direction = "SW";
+        }
+        else if (element >= 248 && element < 293) {
+            direction = "W";
+        }
+        else if (element >= 293 && element < 337) {
+            direction = "NW";
+        }
+        return direction;
+    }
+    public static String capitalize (String k) {
+        String cap = k.substring(0, 1).toUpperCase() + k.substring(1);
+        return cap;
+    }
 }
