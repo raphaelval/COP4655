@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeActivity extends AppCompatActivity {
 
-    TextView nameView, emailView;
+    TextView nameView, emailView, headlineView, sourceView;
     Button logoutBtn;
 
     private DrawerLayout dl;
@@ -85,6 +85,10 @@ public class HomeActivity extends AppCompatActivity {
         logoutBtn = findViewById(R.id.logoutBtn);
         nameView = findViewById(R.id.nameView);
         emailView = findViewById(R.id.emailView);
+        headlineView = findViewById(R.id.headlineView);
+        sourceView = findViewById(R.id.sourceView);
+        headlineView.setText(MainActivity.headline);
+        sourceView.setText(MainActivity.source);
 
         GoogleSignInAccount userAccount = GoogleSignIn.getLastSignedInAccount(this);
         if (userAccount != null) {

@@ -9,6 +9,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -22,11 +28,23 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MainActivity extends AppCompatActivity {
 
     private GoogleSignInClient mGoogleSignInClient;
     private final static int RC_SIGN_IN = 123;
     private FirebaseAuth mAuth;
+
+    public static String headline;
+    public static String source;
+
+    String url;
+    String FH_API_KEY = "c1o84gq37fkqrr9sbte0";
+
+    View view;
 
     @Override
     public void onStart() {
@@ -76,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    @Override
+    //@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -86,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account.getIdToken());
+                firebaseAuthWithGoogle(view, account.getIdToken());
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
@@ -94,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void firebaseAuthWithGoogle(String idToken) {
+    private void firebaseAuthWithGoogle(View view, String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -103,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
+                            getStockData();
                             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                             startActivity(intent);
                         } else {
@@ -111,6 +130,37 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+    public void getStockData() {
+        url = "https://finnhub.io/api/v1/news?category=general&token=" + FH_API_KEY;
+        RequestQueue queue = Volley.newRequestQueue(this);
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        // textView.setText("Response is: " + response);
+                        //System.out.println(response);
+                        try {
+                            JSONArray jsonObject = new JSONArray(response);
+                            JSONObject news = jsonObject.getJSONObject(0);
+                            headline = news.getString("headline");
+                            source = news.getString("source");
+
+                        }catch (JSONException err){
+                            Log.d("Error", err.toString());
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this, "Please fill in all fields", Toast.LENGTH_LONG).show();
+            }
+        });
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
     }
 
 }
