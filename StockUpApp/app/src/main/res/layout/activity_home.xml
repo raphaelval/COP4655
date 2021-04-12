@@ -39,32 +39,6 @@ android:background="@android:color/holo_green_dark">
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nameView" />
 
-        <TextView
-            android:id="@+id/headlineView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="28dp"
-            android:text="TextView"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/emailView" />
-
-        <TextView
-            android:id="@+id/sourceView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="32dp"
-            android:text="TextView"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/headlineView" />
-
         <Button
             android:id="@+id/logoutBtn"
             android:layout_width="wrap_content"
@@ -85,7 +59,11 @@ android:background="@android:color/holo_green_dark">
     app:menu="@menu/navigation_menu"
     android:layout_gravity="start"
     app:headerLayout="@layout/nav_header"
-    android:id="@+id/nv">
+    android:id="@+id/nv"
+    app:itemIconTint="@color/drawer_item"
+    app:itemTextColor="@color/drawer_item"
+    app:itemBackground="@android:color/transparent">
+
 
 </com.google.android.material.navigation.NavigationView>
 

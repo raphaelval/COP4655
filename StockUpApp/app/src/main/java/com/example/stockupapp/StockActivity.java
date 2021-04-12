@@ -32,6 +32,7 @@ public class StockActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         nv = (NavigationView)findViewById(R.id.nv);
+        nv.setCheckedItem(R.id.activity_stock);
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

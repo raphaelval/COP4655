@@ -32,29 +32,37 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     private GoogleSignInClient mGoogleSignInClient;
     private final static int RC_SIGN_IN = 123;
     private FirebaseAuth mAuth;
 
-    public static String headline;
-    public static String source;
+    public static String headline [] = new String[8];
+    public static String source [] = new String[8];
+    public static String summary [] = new String[8];
+    public static String newsUrl [] = new String[8];
+    //List<String> headline = new ArrayList<String>();
+
 
     String url;
     String FH_API_KEY = "c1o84gq37fkqrr9sbte0";
-
-    View view;
 
     @Override
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
+
         if (currentUser != null) {
-            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            getStockData();
+            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
             Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show();
+
         }
 
     }
@@ -104,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(view, account.getIdToken());
+                firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
@@ -112,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void firebaseAuthWithGoogle(View view, String idToken) {
+    private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -120,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
+
                             FirebaseUser user = mAuth.getCurrentUser();
                             getStockData();
                             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
@@ -131,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
+
     public void getStockData() {
         url = "https://finnhub.io/api/v1/news?category=general&token=" + FH_API_KEY;
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -144,9 +154,14 @@ public class MainActivity extends AppCompatActivity {
                         //System.out.println(response);
                         try {
                             JSONArray jsonObject = new JSONArray(response);
-                            JSONObject news = jsonObject.getJSONObject(0);
-                            headline = news.getString("headline");
-                            source = news.getString("source");
+                            for (int i=0;i<8;i++) {
+                                JSONObject news = jsonObject.getJSONObject(i);
+                                headline[i] = news.getString("headline");
+                                source[i] = news.getString("source");
+                                summary[i] = news.getString("summary");
+                                newsUrl[i] = news.getString("url");
+                            }
+
 
                         }catch (JSONException err){
                             Log.d("Error", err.toString());
@@ -156,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, "Please fill in all fields", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Error retrieving info", Toast.LENGTH_LONG).show();
             }
         });
         // Add the request to the RequestQueue.

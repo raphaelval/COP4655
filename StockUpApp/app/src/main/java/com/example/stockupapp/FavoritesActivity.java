@@ -36,6 +36,7 @@ public class FavoritesActivity extends AppCompatActivity {
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                item.setChecked(true);
                 int id = item.getItemId();
                 switch(id)
                 {

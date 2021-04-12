@@ -12,6 +12,10 @@
         android:layout_height="match_parent">
 
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -20,7 +24,10 @@
         app:menu="@menu/navigation_menu"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
-        android:id="@+id/nv">
+        android:id="@+id/nv"
+        app:itemIconTint="@color/drawer_item"
+        app:itemTextColor="@color/drawer_item"
+        app:itemBackground="@android:color/transparent">
 
     </com.google.android.material.navigation.NavigationView>
 
