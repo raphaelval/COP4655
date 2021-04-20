@@ -58,38 +58,37 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+                if (item.isChecked())
+                    item.setChecked(false);
+                else
+                    item.setChecked(true);
+
                 int id = item.getItemId();
                 switch(id)
                 {
                     case R.id.profile:
                         Toast.makeText(HomeActivity.this, "Profile", Toast.LENGTH_SHORT).show();
                         navFunc.goToProfile(HomeActivity.this);
-                        item.setCheckable(true).setChecked(true);
                         break;
                     case R.id.fav:
                         Toast.makeText(HomeActivity.this, "Favorites",Toast.LENGTH_SHORT).show();
                         navFunc.goToFav(HomeActivity.this);
-                        item.setCheckable(true).setChecked(true);
                         break;
                     case R.id.news:
                         Toast.makeText(HomeActivity.this, "News",Toast.LENGTH_SHORT).show();
                         navFunc.goToNews(HomeActivity.this);
-                        item.setCheckable(true).setChecked(true);
                         break;
                     case R.id.stocks:
                         Toast.makeText(HomeActivity.this, "Stocks", Toast.LENGTH_SHORT).show();
                         navFunc.goToStocks(HomeActivity.this);
-                        item.setCheckable(true).setChecked(true);
                         break;
                     case R.id.crypto:
                         Toast.makeText(HomeActivity.this, "Cryptocurrency",Toast.LENGTH_SHORT).show();
                         navFunc.goToCrypto(HomeActivity.this);
-                        item.setCheckable(true).setChecked(true);
                         break;
                     case R.id.search:
                         Toast.makeText(HomeActivity.this, "Search",Toast.LENGTH_SHORT).show();
                         navFunc.goToSearch(HomeActivity.this);
-                        item.setCheckable(true).setChecked(true);
                         break;
                     default:
                         return true;

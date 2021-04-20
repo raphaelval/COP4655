@@ -36,7 +36,12 @@ public class CryptoActivity extends AppCompatActivity {
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                item.setCheckable(true).setChecked(true);
+
+                if (item.isChecked())
+                    item.setChecked(false);
+                else
+                    item.setChecked(true);
+
                 int id = item.getItemId();
                 switch(id)
                 {
@@ -44,23 +49,19 @@ public class CryptoActivity extends AppCompatActivity {
 
                         Toast.makeText(CryptoActivity.this, "Profile", Toast.LENGTH_SHORT).show();
                         navFunc.goToProfile(CryptoActivity.this);
-                        item.setCheckable(true).setChecked(true);
                         break;
 
                     case R.id.fav:
                         Toast.makeText(CryptoActivity.this, "Favorites",Toast.LENGTH_SHORT).show();
                         navFunc.goToFav(CryptoActivity.this);
-                        item.setCheckable(true).setChecked(true);
                         break;
                     case R.id.news:
                         Toast.makeText(CryptoActivity.this, "News",Toast.LENGTH_SHORT).show();
                         navFunc.goToNews(CryptoActivity.this);
-                        item.setCheckable(true).setChecked(true);
                         break;
                     case R.id.stocks:
                         Toast.makeText(CryptoActivity.this, "Stocks", Toast.LENGTH_SHORT).show();
                         navFunc.goToStocks(CryptoActivity.this);
-                        item.setCheckable(true).setChecked(true);
                         break;
                     case R.id.crypto:
                         Toast.makeText(CryptoActivity.this, "Cryptocurrency",Toast.LENGTH_SHORT).show();
@@ -69,7 +70,6 @@ public class CryptoActivity extends AppCompatActivity {
                     case R.id.search:
                         Toast.makeText(CryptoActivity.this, "Search",Toast.LENGTH_SHORT).show();
                         navFunc.goToSearch(CryptoActivity.this);
-                        item.setCheckable(true).setChecked(true);
                         break;
                     default:
                         return true;
@@ -85,7 +85,6 @@ public class CryptoActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if(t.onOptionsItemSelected(item))
             return true;
 

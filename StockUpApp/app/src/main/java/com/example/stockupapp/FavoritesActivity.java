@@ -36,13 +36,19 @@ public class FavoritesActivity extends AppCompatActivity {
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                item.setChecked(true);
+
+                if (item.isChecked())
+                    item.setChecked(false);
+                else
+                    item.setChecked(true);
+
                 int id = item.getItemId();
                 switch(id)
                 {
                     case R.id.profile:
                         Toast.makeText(FavoritesActivity.this, "Profile", Toast.LENGTH_SHORT).show();
                         navFunc.goToProfile(FavoritesActivity.this);
+
                         break;
                     case R.id.fav:
                         Toast.makeText(FavoritesActivity.this, "Favorites",Toast.LENGTH_SHORT).show();
@@ -77,7 +83,6 @@ public class FavoritesActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if(t.onOptionsItemSelected(item))
             return true;
 

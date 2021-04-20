@@ -32,10 +32,15 @@ public class SearchActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         nv = (NavigationView)findViewById(R.id.nv);
-        nv.setCheckedItem(R.id.activity_search);
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                if (item.isChecked())
+                    item.setCheckable(true).setChecked(false);
+                else
+                    item.setCheckable(true).setChecked(true);
+
                 int id = item.getItemId();
                 switch(id)
                 {
@@ -76,7 +81,6 @@ public class SearchActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if(t.onOptionsItemSelected(item))
             return true;
 

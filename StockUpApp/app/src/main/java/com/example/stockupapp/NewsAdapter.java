@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewAdapter> {
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewAdapter> {
 
     Context context;
     String headline[];
@@ -18,7 +18,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     String newsUrl[];
 
 
-    public RecyclerAdapter(Context ct, String head[], String src[], String sum[], String nUrl[]){
+    public NewsAdapter(Context ct, String head[], String src[], String sum[], String nUrl[]){
         context = ct;
         headline = head;
         source = src;
@@ -30,7 +30,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     @Override
     public MyViewAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater Inflater = LayoutInflater.from(context);
-        View view = Inflater.inflate(R.layout.recycler_row, parent, false);
+        View view = Inflater.inflate(R.layout.news_row, parent, false);
         return new MyViewAdapter(view);
     }
 

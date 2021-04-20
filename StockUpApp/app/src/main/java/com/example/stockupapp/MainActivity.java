@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
     public static String source [] = new String[8];
     public static String summary [] = new String[8];
     public static String newsUrl [] = new String[8];
-    //List<String> headline = new ArrayList<String>();
-
+    public static String symbol [] = new String[8];
+    public static String symbolDesc [] = new String[8];
 
     String url;
     String FH_API_KEY = "c1o84gq37fkqrr9sbte0";
@@ -145,13 +145,10 @@ public class MainActivity extends AppCompatActivity {
         url = "https://finnhub.io/api/v1/news?category=general&token=" + FH_API_KEY;
         RequestQueue queue = Volley.newRequestQueue(this);
         // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+        StringRequest newsRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        // textView.setText("Response is: " + response);
-                        //System.out.println(response);
                         try {
                             JSONArray jsonObject = new JSONArray(response);
                             for (int i=0;i<8;i++) {
@@ -175,7 +172,36 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         // Add the request to the RequestQueue.
-        queue.add(stringRequest);
+        queue.add(newsRequest);
+
+        url = "https://finnhub.io/api/v1/stock/symbol?exchange=US&token=" + FH_API_KEY + "&currency=USD";
+        // Request a string response from the provided URL.
+        StringRequest stockRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONArray jsonObject = new JSONArray(response);
+                            for (int i=0;i<8;i++) {
+                                JSONObject stocks = jsonObject.getJSONObject(i);
+                                symbol[i] = stocks.getString("symbol");
+                                symbolDesc[i] = stocks.getString("description");
+                            }
+
+
+                        }catch (JSONException err){
+                            Log.d("Error", err.toString());
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this, "Error retrieving info", Toast.LENGTH_LONG).show();
+            }
+        });
+        // Add the request to the RequestQueue.
+        queue.add(stockRequest);
     }
 
 }

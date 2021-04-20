@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -12,6 +14,8 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 
 public class StockActivity extends AppCompatActivity {
+
+    RecyclerView recyclerView;
 
     private DrawerLayout dl;
     private ActionBarDrawerToggle t;
@@ -23,6 +27,8 @@ public class StockActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock);
 
+        recyclerView = findViewById(R.id.recyclerView);
+
         dl = (DrawerLayout)findViewById(R.id.activity_stock);
         t = new ActionBarDrawerToggle(this, dl,R.string.Open, R.string.Close);
 
@@ -31,11 +37,20 @@ public class StockActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        StockAdapter recyclerAdapter = new StockAdapter(this, MainActivity.symbol, MainActivity.symbolDesc);
+        recyclerView.setAdapter(recyclerAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         nv = (NavigationView)findViewById(R.id.nv);
-        nv.setCheckedItem(R.id.activity_stock);
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                if (item.isChecked())
+                    item.setChecked(false);
+                else
+                    item.setChecked(true);
+
                 int id = item.getItemId();
                 switch(id)
                 {
@@ -76,7 +91,6 @@ public class StockActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if(t.onOptionsItemSelected(item))
             return true;
 

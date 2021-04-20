@@ -3,26 +3,32 @@
 
     <item
         android:id="@+id/profile"
+        android:checkable="true"
         android:icon="@drawable/ic_action_profile"
         android:title="Profile" />
     <item
         android:id="@+id/fav"
+        android:checkable="true"
         android:icon="@drawable/ic_action_fav"
         android:title="Favorites" />
     <item
         android:id="@+id/news"
+        android:checkable="true"
         android:icon="@drawable/ic_action_news"
         android:title="News" />
     <item
         android:id="@+id/stocks"
+        android:checkable="true"
         android:icon="@drawable/ic_action_stocks"
         android:title="Stocks" />
     <item
         android:id="@+id/crypto"
+        android:checkable="true"
         android:icon="@drawable/ic_action_crypto"
         android:title="Cryptocurrencies" />
     <item
         android:id="@+id/search"
+        android:checkable="true"
         android:icon="@drawable/ic_action_search"
         android:title="Search" />
 
