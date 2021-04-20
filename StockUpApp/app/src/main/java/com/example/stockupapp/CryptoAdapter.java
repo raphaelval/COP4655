@@ -9,17 +9,30 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.MyViewAdapter> {
 
     Context context;
-    String cryptoSymbol[];
-    String cryptoSymDesc[];
+    //String cryptoSymbol[];
+    //String cryptoSymDesc[];
+    ArrayList<CryptoModal> cryptoModalArrayList;
 
 
-    public CryptoAdapter(Context ct, String cryptoSym[], String crypSymDesc[]){
+    public CryptoAdapter(Context ct, ArrayList<CryptoModal> cryptoModalArrayList){
         context = ct;
-        cryptoSymbol = cryptoSym;
-        cryptoSymDesc = crypSymDesc;
+        this.cryptoModalArrayList = cryptoModalArrayList;
+        //cryptoSymbol = cryptoSym;
+        //cryptoSymDesc = crypSymDesc;
+    }
+
+    public void filterList(ArrayList<CryptoModal> filterllist) {
+        // below line is to add our filtered
+        // list in our course array list.
+        cryptoModalArrayList = filterllist;
+        // below line is to notify our adapter
+        // as change in recycler view data.
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -32,13 +45,15 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.MyViewAdap
 
     @Override
     public void onBindViewHolder(@NonNull CryptoAdapter.MyViewAdapter holder, int position) {
-        holder.cryptoSymView.setText(cryptoSymbol[position]);
-        holder.cryptoSymDescView.setText(cryptoSymDesc[position]);
+        CryptoModal modal = cryptoModalArrayList.get(position);
+        holder.cryptoSymView.setText(modal.getStockName());
+        holder.cryptoSymDescView.setText(modal.getStockDescription());
     }
 
     @Override
     public int getItemCount() {
-        return cryptoSymbol.length;
+
+        return cryptoModalArrayList.size();
     }
 
     public class MyViewAdapter extends RecyclerView.ViewHolder {

@@ -27,8 +27,6 @@ public class StockActivity extends AppCompatActivity {
     MyFunc navFunc = new MyFunc();
     StockAdapter recyclerAdapter = new StockAdapter(this, MainActivity.stockModalArrayList);
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +41,6 @@ public class StockActivity extends AppCompatActivity {
         t.syncState();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -124,7 +121,7 @@ public class StockActivity extends AppCompatActivity {
         // running a for loop to compare elements.
         for (StockModal item : MainActivity.stockModalArrayList) {
             // checking if the entered string matched with any item of our recycler view.
-            if (item.getStockName().toLowerCase().contains(text.toLowerCase())) {
+            if ((item.getStockName().toLowerCase().contains(text.toLowerCase())) || (item.getStockDescription().toLowerCase().contains(text.toLowerCase()))) {
                 // if the item is matched we are
                 // adding it to our filtered list.
                 filteredlist.add(item);

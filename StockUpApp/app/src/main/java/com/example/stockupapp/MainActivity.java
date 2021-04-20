@@ -45,11 +45,10 @@ public class MainActivity extends AppCompatActivity {
     public static String source [];
     public static String summary [];
     public static String newsUrl [];
-    //public static String symbol [];
-    //public static String symbolDesc [];
     public static ArrayList<StockModal> stockModalArrayList;
-    public static String cryptoSymDesc [];
-    public static String cryptoSymbol [];
+    //public static String cryptoSymDesc [];
+    //public static String cryptoSymbol [];
+    public static ArrayList<CryptoModal> cryptoModalArrayList;
 
     String url;
     String FH_API_KEY = "c1o84gq37fkqrr9sbte0";
@@ -189,13 +188,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         try {
                             JSONArray jsonObject = new JSONArray(response);
-                            //symbol = new String[jsonObject.length()];
-                            //symbolDesc = new String[jsonObject.length()];
                             stockModalArrayList = new ArrayList<>();
                             for (int i=0;i<jsonObject.length();i++) {
                                 JSONObject stocks = jsonObject.getJSONObject(i);
-                                //symbol[i] = stocks.getString("symbol");
-                                //symbolDesc[i] = stocks.getString("description");
                                 stockModalArrayList.add(new StockModal(stocks.getString("symbol"), stocks.getString("description")));
                             }
 
@@ -222,12 +217,14 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         try {
                             JSONArray jsonObject = new JSONArray(response);
-                            cryptoSymbol = new String[jsonObject.length()];
-                            cryptoSymDesc = new String[jsonObject.length()];
+                            //cryptoSymbol = new String[jsonObject.length()];
+                            //cryptoSymDesc = new String[jsonObject.length()];
+                            cryptoModalArrayList = new ArrayList<>();
                             for (int i=0;i<jsonObject.length();i++) {
                                 JSONObject crypto = jsonObject.getJSONObject(i);
-                                cryptoSymbol[i] = crypto.getString("displaySymbol");
-                                cryptoSymDesc[i] = crypto.getString("description");
+                                //cryptoSymbol[i] = crypto.getString("displaySymbol");
+                                //cryptoSymDesc[i] = crypto.getString("description");
+                                cryptoModalArrayList.add(new CryptoModal(crypto.getString("displaySymbol"), crypto.getString("description")));
                             }
 
 

@@ -20,8 +20,6 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.MyViewAdapte
 
     ArrayList<StockModal> stockModalArrayList;
     Context context;
-    //String symbol[];
-    //String symbolDesc[];
 
 
     public StockAdapter(Context ct, ArrayList<StockModal> stockModalArrayList){
@@ -48,8 +46,6 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.MyViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull StockAdapter.MyViewAdapter holder, int position) {
-        //holder.symView.setText(symbol[position]);
-        //holder.symDescView.setText(symbolDesc[position]);
         StockModal modal = stockModalArrayList.get(position);
         holder.symView.setText(modal.getStockName());
         holder.symDescView.setText(modal.getStockDescription());
@@ -57,7 +53,6 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.MyViewAdapte
 
     @Override
     public int getItemCount() {
-        //return symbol.length;
         return stockModalArrayList.size();
     }
     public class MyViewAdapter extends RecyclerView.ViewHolder {
