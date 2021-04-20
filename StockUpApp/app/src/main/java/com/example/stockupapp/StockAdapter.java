@@ -4,22 +4,38 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class StockAdapter extends RecyclerView.Adapter<StockAdapter.MyViewAdapter> {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
+public class StockAdapter extends RecyclerView.Adapter<StockAdapter.MyViewAdapter>{
+
+    ArrayList<StockModal> stockModalArrayList;
     Context context;
-    String symbol[];
-    String symbolDesc[];
+    //String symbol[];
+    //String symbolDesc[];
 
 
-    public StockAdapter(Context ct, String sym[], String symDesc[]){
+    public StockAdapter(Context ct, ArrayList<StockModal> stockModalArrayList){
         context = ct;
-        symbol = sym;
-        symbolDesc = symDesc;
+        this.stockModalArrayList = stockModalArrayList;
+    }
+
+    public void filterList(ArrayList<StockModal> filterllist) {
+        // below line is to add our filtered
+        // list in our course array list.
+        stockModalArrayList = filterllist;
+        // below line is to notify our adapter
+        // as change in recycler view data.
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -32,15 +48,18 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.MyViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull StockAdapter.MyViewAdapter holder, int position) {
-        holder.symView.setText(symbol[position]);
-        holder.symDescView.setText(symbolDesc[position]);
+        //holder.symView.setText(symbol[position]);
+        //holder.symDescView.setText(symbolDesc[position]);
+        StockModal modal = stockModalArrayList.get(position);
+        holder.symView.setText(modal.getStockName());
+        holder.symDescView.setText(modal.getStockDescription());
     }
 
     @Override
     public int getItemCount() {
-        return symbol.length;
+        //return symbol.length;
+        return stockModalArrayList.size();
     }
-
     public class MyViewAdapter extends RecyclerView.ViewHolder {
 
         TextView symView, symDescView;

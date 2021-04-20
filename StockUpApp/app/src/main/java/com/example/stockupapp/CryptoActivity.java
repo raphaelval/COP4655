@@ -38,7 +38,7 @@ public class CryptoActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        StockAdapter recyclerAdapter = new StockAdapter(this, MainActivity.cryptoSymbol, MainActivity.cryptoSymDesc);
+        CryptoAdapter recyclerAdapter = new CryptoAdapter(this, MainActivity.cryptoSymbol, MainActivity.cryptoSymDesc);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

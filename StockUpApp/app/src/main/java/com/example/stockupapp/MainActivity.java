@@ -41,14 +41,15 @@ public class MainActivity extends AppCompatActivity {
     private final static int RC_SIGN_IN = 123;
     private FirebaseAuth mAuth;
 
-    public static String headline [] = new String[8];
-    public static String source [] = new String[8];
-    public static String summary [] = new String[8];
-    public static String newsUrl [] = new String[8];
-    public static String symbol [] = new String[8];
-    public static String symbolDesc [] = new String[8];
-    public static String cryptoSymDesc [] = new String[8];
-    public static String cryptoSymbol [] = new String[8];
+    public static String headline [];
+    public static String source [];
+    public static String summary [];
+    public static String newsUrl [];
+    //public static String symbol [];
+    //public static String symbolDesc [];
+    public static ArrayList<StockModal> stockModalArrayList;
+    public static String cryptoSymDesc [];
+    public static String cryptoSymbol [];
 
     String url;
     String FH_API_KEY = "c1o84gq37fkqrr9sbte0";
@@ -153,7 +154,11 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         try {
                             JSONArray jsonObject = new JSONArray(response);
-                            for (int i=0;i<8;i++) {
+                            headline = new String[jsonObject.length()];
+                            source = new String[jsonObject.length()];
+                            summary = new String[jsonObject.length()];
+                            newsUrl = new String[jsonObject.length()];
+                            for (int i=0;i<jsonObject.length();i++) {
                                 JSONObject news = jsonObject.getJSONObject(i);
                                 headline[i] = news.getString("headline");
                                 source[i] = news.getString("source");
@@ -184,10 +189,14 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         try {
                             JSONArray jsonObject = new JSONArray(response);
-                            for (int i=0;i<8;i++) {
+                            //symbol = new String[jsonObject.length()];
+                            //symbolDesc = new String[jsonObject.length()];
+                            stockModalArrayList = new ArrayList<>();
+                            for (int i=0;i<jsonObject.length();i++) {
                                 JSONObject stocks = jsonObject.getJSONObject(i);
-                                symbol[i] = stocks.getString("symbol");
-                                symbolDesc[i] = stocks.getString("description");
+                                //symbol[i] = stocks.getString("symbol");
+                                //symbolDesc[i] = stocks.getString("description");
+                                stockModalArrayList.add(new StockModal(stocks.getString("symbol"), stocks.getString("description")));
                             }
 
 
@@ -213,10 +222,12 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         try {
                             JSONArray jsonObject = new JSONArray(response);
-                            for (int i=0;i<8;i++) {
-                                JSONObject stocks = jsonObject.getJSONObject(i);
-                                cryptoSymbol[i] = stocks.getString("displaySymbol");
-                                cryptoSymDesc[i] = stocks.getString("description");
+                            cryptoSymbol = new String[jsonObject.length()];
+                            cryptoSymDesc = new String[jsonObject.length()];
+                            for (int i=0;i<jsonObject.length();i++) {
+                                JSONObject crypto = jsonObject.getJSONObject(i);
+                                cryptoSymbol[i] = crypto.getString("displaySymbol");
+                                cryptoSymDesc[i] = crypto.getString("description");
                             }
 
 
