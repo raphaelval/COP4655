@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     public static String newsUrl [] = new String[8];
     public static String symbol [] = new String[8];
     public static String symbolDesc [] = new String[8];
+    public static String cryptoSymDesc [] = new String[8];
+    public static String cryptoSymbol [] = new String[8];
 
     String url;
     String FH_API_KEY = "c1o84gq37fkqrr9sbte0";
@@ -202,6 +204,35 @@ public class MainActivity extends AppCompatActivity {
         });
         // Add the request to the RequestQueue.
         queue.add(stockRequest);
+
+        url = "https://finnhub.io/api/v1/crypto/symbol?exchange=COINBASE&token=" + FH_API_KEY;
+        // Request a string response from the provided URL.
+        StringRequest cryptoRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONArray jsonObject = new JSONArray(response);
+                            for (int i=0;i<8;i++) {
+                                JSONObject stocks = jsonObject.getJSONObject(i);
+                                cryptoSymbol[i] = stocks.getString("displaySymbol");
+                                cryptoSymDesc[i] = stocks.getString("description");
+                            }
+
+
+                        }catch (JSONException err){
+                            Log.d("Error", err.toString());
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this, "Error retrieving info", Toast.LENGTH_LONG).show();
+            }
+        });
+        // Add the request to the RequestQueue.
+        queue.add(cryptoRequest);
     }
 
 }
