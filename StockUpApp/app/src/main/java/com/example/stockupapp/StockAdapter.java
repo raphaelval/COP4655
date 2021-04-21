@@ -6,7 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,6 +51,11 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.MyViewAdapte
         StockModal modal = stockModalArrayList.get(position);
         holder.symView.setText(modal.getStockName());
         holder.symDescView.setText(modal.getStockDescription());
+        if (modal.getFavStatus() == 0){
+            holder.favBtnView.setBackgroundResource(R.drawable.ic_action_fav_gray);
+        } else {
+            holder.favBtnView.setBackgroundResource(R.drawable.ic_action_fav_yellow);
+        }
     }
 
     @Override
@@ -58,11 +65,31 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.MyViewAdapte
     public class MyViewAdapter extends RecyclerView.ViewHolder {
 
         TextView symView, symDescView;
+        ImageView favBtnView;
 
         public MyViewAdapter(@NonNull View itemView) {
             super(itemView);
             symView = itemView.findViewById(R.id.symbolText);
             symDescView = itemView.findViewById(R.id.descText);
+            favBtnView = itemView.findViewById(R.id.favBtn);
+
+            favBtnView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    StockModal stockModal = stockModalArrayList.get(position);
+
+                    if (stockModal.getFavStatus() == 0) {
+                        stockModal.setFavStatus(1);
+                        favBtnView.setBackgroundResource(R.drawable.ic_action_fav_yellow);
+                        Toast.makeText(context, "Added to favorites", Toast.LENGTH_SHORT).show();
+                    } else {
+                        stockModal.setFavStatus(0);
+                        favBtnView.setBackgroundResource(R.drawable.ic_action_fav_gray);
+                        Toast.makeText(context, "Removed from favorites", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
     }
 

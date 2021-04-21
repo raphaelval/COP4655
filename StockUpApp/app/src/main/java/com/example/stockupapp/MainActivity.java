@@ -27,6 +27,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
     public static String summary [];
     public static String newsUrl [];
     public static ArrayList<StockModal> stockModalArrayList;
-    //public static String cryptoSymDesc [];
-    //public static String cryptoSymbol [];
     public static ArrayList<CryptoModal> cryptoModalArrayList;
 
     String url;
@@ -191,7 +191,8 @@ public class MainActivity extends AppCompatActivity {
                             stockModalArrayList = new ArrayList<>();
                             for (int i=0;i<jsonObject.length();i++) {
                                 JSONObject stocks = jsonObject.getJSONObject(i);
-                                stockModalArrayList.add(new StockModal(stocks.getString("symbol"), stocks.getString("description")));
+                                //implement if database favs equals symbol name, then set fav status to 1, else 0
+                                stockModalArrayList.add(new StockModal(stocks.getString("symbol"), stocks.getString("description"), 0));
                             }
 
 
@@ -224,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
                                 JSONObject crypto = jsonObject.getJSONObject(i);
                                 //cryptoSymbol[i] = crypto.getString("displaySymbol");
                                 //cryptoSymDesc[i] = crypto.getString("description");
-                                cryptoModalArrayList.add(new CryptoModal(crypto.getString("displaySymbol"), crypto.getString("description")));
+                                cryptoModalArrayList.add(new CryptoModal(crypto.getString("displaySymbol"), crypto.getString("description"), 0));
                             }
 
 
