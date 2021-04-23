@@ -120,6 +120,7 @@ public class FavoritesActivity extends AppCompatActivity {
         if (stockFilteredlist.isEmpty() && cryptoFilteredlist.isEmpty()) {
             // if no item is added in filtered list we are
             // displaying a toast message as no data found.
+            recyclerAdapter.filterList(stockFilteredlist, cryptoFilteredlist);
             Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show();
         } else {
             // at last we are passing that filtered

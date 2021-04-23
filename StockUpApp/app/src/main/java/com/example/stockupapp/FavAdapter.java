@@ -161,12 +161,12 @@ public class FavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     if (cryptoModal.getFavStatus() == 0) {
                         cryptoModal.setFavStatus(1);
                         favBtnView.setBackgroundResource(R.drawable.ic_action_fav_yellow);
-                        MainActivity.myRef.child(userID).child("favorites").child(cryptoModal.getDisplaySymbol()).setValue("true");
+                        MainActivity.myRef.child(userID).child("favorites").child(cryptoModal.getStockName()).setValue("true");
                         Toast.makeText(context, "Added to favorites", Toast.LENGTH_SHORT).show();
                     } else {
                         cryptoModal.setFavStatus(0);
                         favBtnView.setBackgroundResource(R.drawable.ic_action_fav_gray);
-                        MainActivity.myRef.child(userID).child("favorites").child(cryptoModal.getDisplaySymbol()).removeValue();
+                        MainActivity.myRef.child(userID).child("favorites").child(cryptoModal.getStockName()).removeValue();
                         Toast.makeText(context, "Removed from favorites", Toast.LENGTH_SHORT).show();
                     }
                 }
