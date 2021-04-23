@@ -14,6 +14,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -31,6 +33,10 @@ public class StockActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock);
+
+        MainActivity.mAuth = FirebaseAuth.getInstance();
+        MainActivity.mFirebaseDatabase = FirebaseDatabase.getInstance();
+        MainActivity.myRef = MainActivity.mFirebaseDatabase.getReference();
 
         recyclerView = findViewById(R.id.recyclerView);
 

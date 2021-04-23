@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -62,6 +64,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.MyViewAdapte
     public int getItemCount() {
         return stockModalArrayList.size();
     }
+
     public class MyViewAdapter extends RecyclerView.ViewHolder {
 
         TextView symView, symDescView;
@@ -79,13 +82,18 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.MyViewAdapte
                     int position = getAdapterPosition();
                     StockModal stockModal = stockModalArrayList.get(position);
 
+                    FirebaseUser user = MainActivity.mAuth.getCurrentUser();
+                    String userID = user.getUid();
+
                     if (stockModal.getFavStatus() == 0) {
                         stockModal.setFavStatus(1);
                         favBtnView.setBackgroundResource(R.drawable.ic_action_fav_yellow);
+                        MainActivity.myRef.child(userID).child("favorites").child(stockModal.getStockName()).setValue("true");
                         Toast.makeText(context, "Added to favorites", Toast.LENGTH_SHORT).show();
                     } else {
                         stockModal.setFavStatus(0);
                         favBtnView.setBackgroundResource(R.drawable.ic_action_fav_gray);
+                        MainActivity.myRef.child(userID).child("favorites").child(stockModal.getStockName()).removeValue();
                         Toast.makeText(context, "Removed from favorites", Toast.LENGTH_SHORT).show();
                     }
                 }

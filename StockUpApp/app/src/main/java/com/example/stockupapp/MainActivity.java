@@ -27,8 +27,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,7 +45,9 @@ public class MainActivity extends AppCompatActivity {
 
     private GoogleSignInClient mGoogleSignInClient;
     private final static int RC_SIGN_IN = 123;
-    private FirebaseAuth mAuth;
+    public static FirebaseAuth mAuth;
+    public static FirebaseDatabase mFirebaseDatabase;
+    public static DatabaseReference myRef;
 
     public static String headline [];
     public static String source [];
@@ -49,9 +55,12 @@ public class MainActivity extends AppCompatActivity {
     public static String newsUrl [];
     public static ArrayList<StockModal> stockModalArrayList;
     public static ArrayList<CryptoModal> cryptoModalArrayList;
+    public static ArrayList<String> favList = new ArrayList<>();
 
     String url;
     String FH_API_KEY = "c1o84gq37fkqrr9sbte0";
+
+    String userID;
 
     @Override
     public void onStart() {
@@ -60,6 +69,18 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null) {
+            userID = currentUser.getUid();
+            myRef.child(userID).child("favorites").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    for (DataSnapshot snap : snapshot.getChildren()){
+                        favList.add(snap.getKey());
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
             getStockData();
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
@@ -75,6 +96,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = mFirebaseDatabase.getReference();
+
 
         createRequest();
 
@@ -84,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 signIn();
             }
         });
+
 
     }
 
@@ -132,6 +157,18 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
 
                             FirebaseUser user = mAuth.getCurrentUser();
+                            userID = user.getUid();
+                            myRef.child(userID).child("favorites").addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot snapshot) {
+                                    for (DataSnapshot snap : snapshot.getChildren()){
+                                        favList.add(snap.getKey());
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                }
+                            });
                             getStockData();
                             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                             startActivity(intent);
@@ -192,7 +229,20 @@ public class MainActivity extends AppCompatActivity {
                             for (int i=0;i<jsonObject.length();i++) {
                                 JSONObject stocks = jsonObject.getJSONObject(i);
                                 //implement if database favs equals symbol name, then set fav status to 1, else 0
-                                stockModalArrayList.add(new StockModal(stocks.getString("symbol"), stocks.getString("description"), 0));
+                                String jsonSymbol = stocks.getString("symbol");
+                                String jsonDesc = stocks.getString("description");
+                                int match = 0;
+                                for (int j = 0; j < favList.size(); j++){
+                                    if (favList.get(j).equals(jsonSymbol)) {
+                                        match = 1;
+                                    }
+                                }
+                                if (match == 1){
+                                    stockModalArrayList.add(new StockModal(jsonSymbol, jsonDesc, 1));
+                                } else {
+                                    stockModalArrayList.add(new StockModal(jsonSymbol, jsonDesc, 0));
+                                }
+                                //stockModalArrayList.add(new StockModal(stocks.getString("symbol"), stocks.getString("description"), 0));
                             }
 
 
@@ -218,13 +268,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         try {
                             JSONArray jsonObject = new JSONArray(response);
-                            //cryptoSymbol = new String[jsonObject.length()];
-                            //cryptoSymDesc = new String[jsonObject.length()];
                             cryptoModalArrayList = new ArrayList<>();
                             for (int i=0;i<jsonObject.length();i++) {
                                 JSONObject crypto = jsonObject.getJSONObject(i);
-                                //cryptoSymbol[i] = crypto.getString("displaySymbol");
-                                //cryptoSymDesc[i] = crypto.getString("description");
                                 cryptoModalArrayList.add(new CryptoModal(crypto.getString("displaySymbol"), crypto.getString("description"), 0));
                             }
 
