@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class FavoritesActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    FavAdapter recyclerAdapter = new FavAdapter(this, MainActivity.stockModalArrayList);
+    FavAdapter recyclerAdapter = new FavAdapter(this, MainActivity.stockModalArrayList, MainActivity.cryptoModalArrayList);
 
     private DrawerLayout dl;
     private ActionBarDrawerToggle t;
@@ -96,7 +96,8 @@ public class FavoritesActivity extends AppCompatActivity {
 
     private void filter() {
         // creating a new array list to filter our data.
-        ArrayList<StockModal> filteredlist = new ArrayList<>();
+        ArrayList<StockModal> stockFilteredlist = new ArrayList<>();
+        ArrayList<CryptoModal> cryptoFilteredlist = new ArrayList<>();
 
         // running a for loop to compare elements.
         for (StockModal item : MainActivity.stockModalArrayList) {
@@ -104,17 +105,26 @@ public class FavoritesActivity extends AppCompatActivity {
             if (item.getFavStatus() == 1) {
                 // if the item is matched we are
                 // adding it to our filtered list.
-                filteredlist.add(item);
+                stockFilteredlist.add(item);
             }
         }
-        if (filteredlist.isEmpty()) {
+        for (CryptoModal item : MainActivity.cryptoModalArrayList) {
+            // checking if the entered string matched with any item of our recycler view.
+            if (item.getFavStatus() == 1) {
+                // if the item is matched we are
+                // adding it to our filtered list.
+                cryptoFilteredlist.add(item);
+            }
+        }
+
+        if (stockFilteredlist.isEmpty() && cryptoFilteredlist.isEmpty()) {
             // if no item is added in filtered list we are
             // displaying a toast message as no data found.
             Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show();
         } else {
             // at last we are passing that filtered
             // list to our adapter class.
-            recyclerAdapter.filterList(filteredlist);
+            recyclerAdapter.filterList(stockFilteredlist, cryptoFilteredlist);
         }
     }
 
