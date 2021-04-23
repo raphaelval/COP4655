@@ -75,9 +75,9 @@ public class NewsActivity extends AppCompatActivity {
                         Toast.makeText(NewsActivity.this, "Cryptocurrency",Toast.LENGTH_SHORT).show();
                         navFunc.goToCrypto(NewsActivity.this);
                         break;
-                    case R.id.search:
-                        Toast.makeText(NewsActivity.this, "Search",Toast.LENGTH_SHORT).show();
-                        navFunc.goToSearch(NewsActivity.this);
+                    case R.id.logout:
+                        Toast.makeText(NewsActivity.this, "Sign Out",Toast.LENGTH_SHORT).show();
+                        navFunc.logout(NewsActivity.this);
                         break;
                     default:
                         return true;

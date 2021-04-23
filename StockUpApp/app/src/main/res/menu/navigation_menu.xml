@@ -27,9 +27,9 @@
         android:icon="@drawable/ic_action_crypto"
         android:title="Cryptocurrencies" />
     <item
-        android:id="@+id/search"
+        android:id="@+id/logout"
         android:checkable="true"
-        android:icon="@drawable/ic_action_search"
-        android:title="Search" />
+        android:icon="@drawable/ic_action_logout"
+        android:title="Sign Out" />
 
 </menu>

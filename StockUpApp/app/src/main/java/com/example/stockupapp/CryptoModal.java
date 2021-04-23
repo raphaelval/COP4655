@@ -4,12 +4,14 @@ public class CryptoModal {
 
     // variables
     private String symbol;
+    private String displaySymbol;
     private String symbolDesc;
     private int favStatus;
 
     // creating constructor for our variables.
-    public CryptoModal(String symbolName, String symbolDesc, int favStatus) {
+    public CryptoModal(String symbolName, String displaySymbol, String symbolDesc, int favStatus) {
         this.symbol = symbolName;
+        this.displaySymbol = displaySymbol;
         this.symbolDesc = symbolDesc;
         this.favStatus = favStatus;
     }
@@ -29,6 +31,14 @@ public class CryptoModal {
 
     public void setStockDescription(String symbolDesc) {
         this.symbolDesc = symbolDesc;
+    }
+
+    public void setDisplaySymbol(String displaySymbol) {
+        this.displaySymbol = displaySymbol;
+    }
+
+    public String getDisplaySymbol(){
+        return displaySymbol;
     }
 
     public int getFavStatus() {

@@ -48,11 +48,11 @@
                 android:id="@+id/favBtn"
                 android:layout_width="33dp"
                 android:layout_height="33dp"
+                app:tint="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_action_fav_gray"
-                tools:ignore="VectorDrawableCompat" />
+                app:srcCompat="@drawable/ic_action_fav_gray" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

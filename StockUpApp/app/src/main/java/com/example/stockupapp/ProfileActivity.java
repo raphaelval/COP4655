@@ -5,14 +5,18 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.navigation.NavigationView;
 
 public class ProfileActivity extends AppCompatActivity {
+
+    TextView nameView, emailView;
 
     private DrawerLayout dl;
     private ActionBarDrawerToggle t;
@@ -65,9 +69,9 @@ public class ProfileActivity extends AppCompatActivity {
                         Toast.makeText(ProfileActivity.this, "Cryptocurrency",Toast.LENGTH_SHORT).show();
                         navFunc.goToCrypto(ProfileActivity.this);
                         break;
-                    case R.id.search:
-                        Toast.makeText(ProfileActivity.this, "Search",Toast.LENGTH_SHORT).show();
-                        navFunc.goToSearch(ProfileActivity.this);
+                    case R.id.logout:
+                        Toast.makeText(ProfileActivity.this, "Sign Out",Toast.LENGTH_SHORT).show();
+                        navFunc.logout(ProfileActivity.this);
                         break;
                     default:
                         return true;
@@ -78,6 +82,16 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
+
+        nameView = findViewById(R.id.nameView);
+        emailView = findViewById(R.id.emailView);
+
+        GoogleSignInAccount userAccount = GoogleSignIn.getLastSignedInAccount(this);
+        if (userAccount != null) {
+            nameView.setText(userAccount.getDisplayName());
+            emailView.setText(userAccount.getEmail());
+        }
+
     }
 
     @Override

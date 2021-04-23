@@ -26,7 +26,7 @@
             android:padding="16dp">
 
             <TextView
-                android:id="@+id/resultSymbolText"
+                android:id="@+id/symbolText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="AAPL"
@@ -36,13 +36,24 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/resultDescText"
+                android:id="@+id/descText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="APPLE TECHNOLOGIES LLC"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/resultSymbolText" />
+                app:layout_constraintTop_toBottomOf="@+id/symbolText" />
+
+            <ImageView
+                android:id="@+id/favBtn"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                app:tint="#000000"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_action_fav_gray"
+                tools:ignore="VectorDrawableCompat" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

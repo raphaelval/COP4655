@@ -16,8 +16,6 @@
         <activity android:name=".StockActivity" />
         <activity android:name=".NewsActivity" />
         <activity android:name=".FavoritesActivity" />
-        <activity android:name=".SearchActivity" />
-        <activity android:name=".HomeActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

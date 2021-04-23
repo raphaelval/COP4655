@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             getStockData();
-            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
             startActivity(intent);
             Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show();
 
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             });
                             getStockData();
-                            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                             startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -228,9 +228,10 @@ public class MainActivity extends AppCompatActivity {
                             stockModalArrayList = new ArrayList<>();
                             for (int i=0;i<jsonObject.length();i++) {
                                 JSONObject stocks = jsonObject.getJSONObject(i);
-                                //implement if database favs equals symbol name, then set fav status to 1, else 0
                                 String jsonSymbol = stocks.getString("symbol");
                                 String jsonDesc = stocks.getString("description");
+
+                                //IF FAVORITES FROM DATABASE EQUALS JSONSYMBOL THEN THERE IS A MATCH
                                 int match = 0;
                                 for (int j = 0; j < favList.size(); j++){
                                     if (favList.get(j).equals(jsonSymbol)) {
@@ -242,9 +243,7 @@ public class MainActivity extends AppCompatActivity {
                                 } else {
                                     stockModalArrayList.add(new StockModal(jsonSymbol, jsonDesc, 0));
                                 }
-                                //stockModalArrayList.add(new StockModal(stocks.getString("symbol"), stocks.getString("description"), 0));
                             }
-
 
                         }catch (JSONException err){
                             Log.d("Error", err.toString());
@@ -260,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
         // Add the request to the RequestQueue.
         queue.add(stockRequest);
 
-        url = "https://finnhub.io/api/v1/crypto/symbol?exchange=COINBASE&token=" + FH_API_KEY;
+        url = "https://finnhub.io/api/v1/crypto/symbol?exchange=binance&token=" + FH_API_KEY;
         // Request a string response from the provided URL.
         StringRequest cryptoRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -271,9 +270,23 @@ public class MainActivity extends AppCompatActivity {
                             cryptoModalArrayList = new ArrayList<>();
                             for (int i=0;i<jsonObject.length();i++) {
                                 JSONObject crypto = jsonObject.getJSONObject(i);
-                                cryptoModalArrayList.add(new CryptoModal(crypto.getString("displaySymbol"), crypto.getString("description"), 0));
-                            }
+                                String jsonDisplaySymbol = crypto.getString("displaySymbol");
+                                String jsonSymbol = crypto.getString("symbol");
+                                String jsonDesc = crypto.getString("description");
 
+                                //IF FAVORITES FROM DATABASE EQUALS JSONSYMBOL THEN THERE IS A MATCH
+                                int match = 0;
+                                for (int j = 0; j < favList.size(); j++){
+                                    if (favList.get(j).equals(jsonSymbol)) {
+                                        match = 1;
+                                    }
+                                }
+                                if (match == 1){
+                                    cryptoModalArrayList.add(new CryptoModal(jsonSymbol, jsonDisplaySymbol, jsonDesc, 1));
+                                } else {
+                                    cryptoModalArrayList.add(new CryptoModal(jsonSymbol, jsonDisplaySymbol, jsonDesc, 0));
+                                }
+                            }
 
                         }catch (JSONException err){
                             Log.d("Error", err.toString());

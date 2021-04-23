@@ -8,13 +8,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -32,6 +33,10 @@ public class CryptoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crypto);
+
+        MainActivity.mAuth = FirebaseAuth.getInstance();
+        MainActivity.mFirebaseDatabase = FirebaseDatabase.getInstance();
+        MainActivity.myRef = MainActivity.mFirebaseDatabase.getReference();
 
         recyclerView = findViewById(R.id.recyclerView);
 
@@ -81,9 +86,9 @@ public class CryptoActivity extends AppCompatActivity {
                         Toast.makeText(CryptoActivity.this, "Cryptocurrency",Toast.LENGTH_SHORT).show();
 
                         break;
-                    case R.id.search:
-                        Toast.makeText(CryptoActivity.this, "Search",Toast.LENGTH_SHORT).show();
-                        navFunc.goToSearch(CryptoActivity.this);
+                    case R.id.logout:
+                        Toast.makeText(CryptoActivity.this, "Sign Out",Toast.LENGTH_SHORT).show();
+                        navFunc.logout(CryptoActivity.this);
                         break;
                     default:
                         return true;

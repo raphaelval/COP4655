@@ -15,22 +15,20 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
-public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.MyViewAdapter> {
+public class FavAdapter extends RecyclerView.Adapter<FavAdapter.MyViewAdapter> {
 
+    ArrayList<StockModal> stockModalArrayList;
     Context context;
 
-    ArrayList<CryptoModal> cryptoModalArrayList;
-
-
-    public CryptoAdapter(Context ct, ArrayList<CryptoModal> cryptoModalArrayList){
+    public FavAdapter(Context ct, ArrayList<StockModal> stockModalArrayList){
         context = ct;
-        this.cryptoModalArrayList = cryptoModalArrayList;
+        this.stockModalArrayList = stockModalArrayList;
     }
 
-    public void filterList(ArrayList<CryptoModal> filterllist) {
+    public void filterList(ArrayList<StockModal> filterllist) {
         // below line is to add our filtered
         // list in our course array list.
-        cryptoModalArrayList = filterllist;
+        stockModalArrayList = filterllist;
         // below line is to notify our adapter
         // as change in recycler view data.
         notifyDataSetChanged();
@@ -38,18 +36,18 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.MyViewAdap
 
     @NonNull
     @Override
-    public CryptoAdapter.MyViewAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FavAdapter.MyViewAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater Inflater = LayoutInflater.from(context);
-        View view = Inflater.inflate(R.layout.crypto_row, parent, false);
-        return new CryptoAdapter.MyViewAdapter(view);
+        View view = Inflater.inflate(R.layout.fav_row, parent, false);
+        return new FavAdapter.MyViewAdapter(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CryptoAdapter.MyViewAdapter holder, int position) {
-        CryptoModal modal = cryptoModalArrayList.get(position);
-        holder.cryptoSymView.setText(modal.getDisplaySymbol());
-        holder.cryptoSymDescView.setText(modal.getStockDescription());
-        if (modal.getFavStatus() == 0){
+    public void onBindViewHolder(@NonNull FavAdapter.MyViewAdapter holder, int position) {
+        StockModal modal = stockModalArrayList.get(position);
+        holder.symView.setText(modal.getStockName());
+        holder.symDescView.setText(modal.getStockDescription());
+        if (modal.getFavStatus() == 0) {
             holder.favBtnView.setBackgroundResource(R.drawable.ic_action_fav_gray);
         } else {
             holder.favBtnView.setBackgroundResource(R.drawable.ic_action_fav_yellow);
@@ -58,45 +56,42 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.MyViewAdap
 
     @Override
     public int getItemCount() {
-
-        return cryptoModalArrayList.size();
+        return stockModalArrayList.size();
     }
 
     public class MyViewAdapter extends RecyclerView.ViewHolder {
 
-        TextView cryptoSymView, cryptoSymDescView;
+        TextView symView, symDescView;
         ImageView favBtnView;
-
 
         public MyViewAdapter(@NonNull View itemView) {
             super(itemView);
-            cryptoSymView = itemView.findViewById(R.id.cryptoSymbolText);
-            cryptoSymDescView = itemView.findViewById(R.id.cryptoDescText);
+            symView = itemView.findViewById(R.id.symbolText);
+            symDescView = itemView.findViewById(R.id.descText);
             favBtnView = itemView.findViewById(R.id.favBtn);
 
             favBtnView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
-                    CryptoModal cryptoModal = cryptoModalArrayList.get(position);
+                    StockModal stockModal = stockModalArrayList.get(position);
 
                     FirebaseUser user = MainActivity.mAuth.getCurrentUser();
                     String userID = user.getUid();
 
-                    if (cryptoModal.getFavStatus() == 0){
-                        cryptoModal.setFavStatus(1);
+                    if (stockModal.getFavStatus() == 0) {
+                        stockModal.setFavStatus(1);
                         favBtnView.setBackgroundResource(R.drawable.ic_action_fav_yellow);
-                        MainActivity.myRef.child(userID).child("favorites").child(cryptoModal.getStockName()).setValue("true");
+                        MainActivity.myRef.child(userID).child("favorites").child(stockModal.getStockName()).setValue("true");
                         Toast.makeText(context, "Added to favorites", Toast.LENGTH_SHORT).show();
                     } else {
-                        cryptoModal.setFavStatus(0);
+                        stockModal.setFavStatus(0);
                         favBtnView.setBackgroundResource(R.drawable.ic_action_fav_gray);
-                        MainActivity.myRef.child(userID).child("favorites").child(cryptoModal.getStockName()).removeValue();
+                        MainActivity.myRef.child(userID).child("favorites").child(stockModal.getStockName()).removeValue();
                         Toast.makeText(context, "Removed from favorites", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         }
     }
-
 }

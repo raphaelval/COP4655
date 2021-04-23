@@ -14,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,8 +42,9 @@ public class MyFunc extends AppCompatActivity {
         Intent intent = new Intent(context, CryptoActivity.class);
         context.startActivity(intent);
     }
-    public void goToSearch(Context context) {
-        Intent intent = new Intent(context, SearchActivity.class);
+    public void logout(Context context) {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
     }
 

@@ -84,9 +84,9 @@ public class StockActivity extends AppCompatActivity {
                         Toast.makeText(StockActivity.this, "Cryptocurrency",Toast.LENGTH_SHORT).show();
                         navFunc.goToCrypto(StockActivity.this);
                         break;
-                    case R.id.search:
-                        Toast.makeText(StockActivity.this, "Search",Toast.LENGTH_SHORT).show();
-                        navFunc.goToSearch(StockActivity.this);
+                    case R.id.logout:
+                        Toast.makeText(StockActivity.this, "Sign Out",Toast.LENGTH_SHORT).show();
+                        navFunc.logout(StockActivity.this);
                         break;
                     default:
                         return true;
