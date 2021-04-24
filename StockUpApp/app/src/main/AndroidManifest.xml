@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.StockUpApp">
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".PriceActivity"></activity>
+        <activity android:name=".ProfileActivity" />
         <activity android:name=".CryptoActivity" />
         <activity android:name=".StockActivity" />
         <activity android:name=".NewsActivity" />
