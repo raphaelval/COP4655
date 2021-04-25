@@ -17,15 +17,18 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
+
 public class ProfileActivity extends AppCompatActivity {
 
-    TextView nameView, emailView;
-    Button button;
+    TextView nameView, emailView, totalFavView, totalStocksView, totalCryptoView;
 
     private DrawerLayout dl;
     private ActionBarDrawerToggle t;
     private NavigationView nv;
     MyFunc navFunc = new MyFunc();
+
+    public static int favCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,23 +90,21 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navFunc.goToPrice(ProfileActivity.this);
-            }
-        });
-
         nameView = findViewById(R.id.nameView);
         emailView = findViewById(R.id.emailView);
+        totalFavView = findViewById(R.id.totalFavView);
+        totalStocksView = findViewById(R.id.totalStocksView);
+        totalCryptoView = findViewById(R.id.totalCryptoView);
 
         GoogleSignInAccount userAccount = GoogleSignIn.getLastSignedInAccount(this);
         if (userAccount != null) {
             nameView.setText(userAccount.getDisplayName());
             emailView.setText(userAccount.getEmail());
         }
-
+        favCount = MainActivity.stocksCount + MainActivity.cryptoCount;
+        totalFavView.setText(String.valueOf(favCount));
+        totalStocksView.setText(String.valueOf(MainActivity.stocksCount));
+        totalCryptoView.setText(String.valueOf(MainActivity.cryptoCount));
     }
 
     @Override
@@ -113,4 +114,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

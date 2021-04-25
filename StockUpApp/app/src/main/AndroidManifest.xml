@@ -11,13 +11,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.StockUpApp">
-        <activity android:name=".PriceActivity">
-        </activity>
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".CryptoActivity" />
-        <activity android:name=".StockActivity" />
-        <activity android:name=".NewsActivity" />
-        <activity android:name=".FavoritesActivity" />
+        <activity android:name=".PriceActivity"
+            android:label=""/>
+        <activity android:name=".ProfileActivity"
+            android:label="Profile"/>
+        <activity android:name=".CryptoActivity"
+            android:label="Cryptocurrencies"/>
+        <activity android:name=".StockActivity"
+            android:label="Stocks"/>
+        <activity android:name=".NewsActivity"
+            android:label="News"/>
+        <activity android:name=".FavoritesActivity"
+            android:label="Favorites"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">StockUpApp</string>
+    <string name="app_name">StockUp</string>
     <string name="Open">Open</string>
     <string name="Close">Close</string>
 </resources>

@@ -42,11 +42,9 @@ public class MyFunc extends AppCompatActivity {
         Intent intent = new Intent(context, CryptoActivity.class);
         context.startActivity(intent);
     }
-    public void goToPrice(Context context) {
-        Intent intent = new Intent(context, PriceActivity.class);
-        context.startActivity(intent);
-    }
     public void logout(Context context) {
+        MainActivity.stocksCount=0;
+        MainActivity.cryptoCount=0;
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);

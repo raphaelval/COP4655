@@ -58,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<CryptoModal> cryptoModalArrayList;
     public static ArrayList<String> favList = new ArrayList<>();
 
+    public static int stocksCount = 0;
+    public static int cryptoCount = 0;
+
     String url;
     String FH_API_KEY = "c1o84gq37fkqrr9sbte0";
 
@@ -83,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             getStockData();
-            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-            startActivity(intent);
+            //Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+            //startActivity(intent);
             Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show();
 
         }
@@ -100,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
 
+        getSupportActionBar().hide();
 
         createRequest();
 
@@ -171,8 +175,8 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             });
                             getStockData();
-                            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                            startActivity(intent);
+                            //Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                            //startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(MainActivity.this, "Sign in failed", Toast.LENGTH_SHORT).show();
@@ -210,6 +214,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.d("Error", err.toString());
                         }
 
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -243,6 +248,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 if (match == 1){
                                     stockModalArrayList.add(new StockModal(jsonSymbol, jsonDesc, 1));
+                                    stocksCount++;
                                 } else {
                                     stockModalArrayList.add(new StockModal(jsonSymbol, jsonDesc, 0));
                                 }
@@ -251,6 +257,8 @@ public class MainActivity extends AppCompatActivity {
                         }catch (JSONException err){
                             Log.d("Error", err.toString());
                         }
+                        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                        startActivity(intent);
 
                     }
                 }, new Response.ErrorListener() {
@@ -286,14 +294,17 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 if (match == 1){
                                     cryptoModalArrayList.add(new CryptoModal(jsonSymbol, jsonDisplaySymbol, jsonDesc, 1));
+                                    cryptoCount++;
                                 } else {
                                     cryptoModalArrayList.add(new CryptoModal(jsonSymbol, jsonDisplaySymbol, jsonDesc, 0));
                                 }
                             }
 
+
                         }catch (JSONException err){
                             Log.d("Error", err.toString());
                         }
+
 
                     }
                 }, new Response.ErrorListener() {
