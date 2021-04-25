@@ -59,27 +59,21 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.OnNew
                 switch(id)
                 {
                     case R.id.profile:
-                        Toast.makeText(NewsActivity.this, "Profile", Toast.LENGTH_SHORT).show();
                         navFunc.goToProfile(NewsActivity.this);
                         break;
                     case R.id.fav:
-                        Toast.makeText(NewsActivity.this, "Favorites",Toast.LENGTH_SHORT).show();
                         navFunc.goToFav(NewsActivity.this);
                         break;
                     case R.id.news:
-                        Toast.makeText(NewsActivity.this, "News",Toast.LENGTH_SHORT).show();
 
                         break;
                     case R.id.stocks:
-                        Toast.makeText(NewsActivity.this, "Stocks", Toast.LENGTH_SHORT).show();
                         navFunc.goToStocks(NewsActivity.this);
                         break;
                     case R.id.crypto:
-                        Toast.makeText(NewsActivity.this, "Cryptocurrency",Toast.LENGTH_SHORT).show();
                         navFunc.goToCrypto(NewsActivity.this);
                         break;
                     case R.id.logout:
-                        Toast.makeText(NewsActivity.this, "Sign Out",Toast.LENGTH_SHORT).show();
                         navFunc.logout(NewsActivity.this);
                         break;
                     default:

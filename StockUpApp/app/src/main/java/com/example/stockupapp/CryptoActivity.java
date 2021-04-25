@@ -55,7 +55,6 @@ public class CryptoActivity extends AppCompatActivity implements CryptoAdapter.O
     public static String difPrice;
     public static String boldTop;
     public static String boldBottom;
-    public static String difColor;
 
     public static String url;
 
@@ -98,28 +97,22 @@ public class CryptoActivity extends AppCompatActivity implements CryptoAdapter.O
                 {
                     case R.id.profile:
 
-                        Toast.makeText(CryptoActivity.this, "Profile", Toast.LENGTH_SHORT).show();
                         navFunc.goToProfile(CryptoActivity.this);
                         break;
 
                     case R.id.fav:
-                        Toast.makeText(CryptoActivity.this, "Favorites",Toast.LENGTH_SHORT).show();
                         navFunc.goToFav(CryptoActivity.this);
                         break;
                     case R.id.news:
-                        Toast.makeText(CryptoActivity.this, "News",Toast.LENGTH_SHORT).show();
                         navFunc.goToNews(CryptoActivity.this);
                         break;
                     case R.id.stocks:
-                        Toast.makeText(CryptoActivity.this, "Stocks", Toast.LENGTH_SHORT).show();
                         navFunc.goToStocks(CryptoActivity.this);
                         break;
                     case R.id.crypto:
-                        Toast.makeText(CryptoActivity.this, "Cryptocurrency",Toast.LENGTH_SHORT).show();
 
                         break;
                     case R.id.logout:
-                        Toast.makeText(CryptoActivity.this, "Sign Out",Toast.LENGTH_SHORT).show();
                         navFunc.logout(CryptoActivity.this);
                         break;
                     default:
@@ -171,7 +164,6 @@ public class CryptoActivity extends AppCompatActivity implements CryptoAdapter.O
         if (filteredlist.isEmpty()) {
             // if no item is added in filtered list we are
             // displaying a toast message as no data found.
-            Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show();
         } else {
             // at last we are passing that filtered
             // list to our adapter class.
@@ -189,6 +181,7 @@ public class CryptoActivity extends AppCompatActivity implements CryptoAdapter.O
 
     @Override
     public void onCryptoClick(View v, int position) {
+        Toast.makeText(this, "Loading info...", Toast.LENGTH_SHORT).show();
         CryptoModal cryptoModal = CryptoAdapter.cryptoModalArrayList.get(position);
         symbol = cryptoModal.getDisplaySymbol();
         String fromCurr = symbol.substring(0, symbol.lastIndexOf("/"));

@@ -85,11 +85,9 @@ public class MainActivity extends AppCompatActivity {
                 public void onCancelled(DatabaseError databaseError) {
                 }
             });
+            stocksCount = 0;
+            cryptoCount = 0;
             getStockData();
-            //Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-            //startActivity(intent);
-            Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show();
-
         }
 
     }
@@ -110,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.googleSignIn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "Signing in...", Toast.LENGTH_SHORT).show();
                 signIn();
             }
         });
@@ -174,9 +173,9 @@ public class MainActivity extends AppCompatActivity {
                                 public void onCancelled(DatabaseError databaseError) {
                                 }
                             });
+                            stocksCount = 0;
+                            cryptoCount = 0;
                             getStockData();
-                            //Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                            //startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(MainActivity.this, "Sign in failed", Toast.LENGTH_SHORT).show();

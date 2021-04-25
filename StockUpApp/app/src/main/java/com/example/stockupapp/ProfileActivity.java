@@ -57,27 +57,21 @@ public class ProfileActivity extends AppCompatActivity {
                 switch(id)
                 {
                     case R.id.profile:
-                        Toast.makeText(ProfileActivity.this, "Profile", Toast.LENGTH_SHORT).show();
 
                         break;
                     case R.id.fav:
-                        Toast.makeText(ProfileActivity.this, "Favorites",Toast.LENGTH_SHORT).show();
                         navFunc.goToFav(ProfileActivity.this);
                         break;
                     case R.id.news:
-                        Toast.makeText(ProfileActivity.this, "News",Toast.LENGTH_SHORT).show();
                         navFunc.goToNews(ProfileActivity.this);
                         break;
                     case R.id.stocks:
-                        Toast.makeText(ProfileActivity.this, "Stocks", Toast.LENGTH_SHORT).show();
                         navFunc.goToStocks(ProfileActivity.this);
                         break;
                     case R.id.crypto:
-                        Toast.makeText(ProfileActivity.this, "Cryptocurrency",Toast.LENGTH_SHORT).show();
                         navFunc.goToCrypto(ProfileActivity.this);
                         break;
                     case R.id.logout:
-                        Toast.makeText(ProfileActivity.this, "Sign Out",Toast.LENGTH_SHORT).show();
                         navFunc.logout(ProfileActivity.this);
                         break;
                     default:

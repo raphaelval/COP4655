@@ -77,28 +77,22 @@ public class FavoritesActivity extends AppCompatActivity implements FavAdapter.O
                 switch(id)
                 {
                     case R.id.profile:
-                        Toast.makeText(FavoritesActivity.this, "Profile", Toast.LENGTH_SHORT).show();
                         navFunc.goToProfile(FavoritesActivity.this);
 
                         break;
                     case R.id.fav:
-                        Toast.makeText(FavoritesActivity.this, "Favorites",Toast.LENGTH_SHORT).show();
 
                         break;
                     case R.id.news:
-                        Toast.makeText(FavoritesActivity.this, "News",Toast.LENGTH_SHORT).show();
                         navFunc.goToNews(FavoritesActivity.this);
                         break;
                     case R.id.stocks:
-                        Toast.makeText(FavoritesActivity.this, "Stocks", Toast.LENGTH_SHORT).show();
                         navFunc.goToStocks(FavoritesActivity.this);
                         break;
                     case R.id.crypto:
-                        Toast.makeText(FavoritesActivity.this, "Cryptocurrency",Toast.LENGTH_SHORT).show();
                         navFunc.goToCrypto(FavoritesActivity.this);
                         break;
                     case R.id.logout:
-                        Toast.makeText(FavoritesActivity.this, "Sign Out",Toast.LENGTH_SHORT).show();
                         navFunc.logout(FavoritesActivity.this);
                         break;
                     default:
@@ -157,6 +151,7 @@ public class FavoritesActivity extends AppCompatActivity implements FavAdapter.O
 
     @Override
     public void onStockClick(View v, int position) {
+        Toast.makeText(this, "Loading info...", Toast.LENGTH_SHORT).show();
         StockModal stockModal = FavAdapter.stockModalArrayList.get(position);
         StockActivity.symbol = stockModal.getStockName();
         StockActivity.symbolName = FavAdapter.stockModalArrayList.get(position).getStockDescription();
@@ -215,6 +210,7 @@ public class FavoritesActivity extends AppCompatActivity implements FavAdapter.O
 
     @Override
     public void onCryptoClick(View v, int position) {
+        Toast.makeText(this, "Loading info...", Toast.LENGTH_SHORT).show();
         CryptoModal cryptoModal = FavAdapter.cryptoModalArrayList.get(position - FavAdapter.stockModalArrayList.size());
         CryptoActivity.symbol = cryptoModal.getDisplaySymbol();
         String fromCurr = CryptoActivity.symbol.substring(0, CryptoActivity.symbol.lastIndexOf("/"));

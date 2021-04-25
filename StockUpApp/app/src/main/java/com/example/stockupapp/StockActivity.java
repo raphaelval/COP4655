@@ -94,27 +94,21 @@ public class StockActivity extends AppCompatActivity implements StockAdapter.OnS
                 switch(id)
                 {
                     case R.id.profile:
-                        Toast.makeText(StockActivity.this, "Profile", Toast.LENGTH_SHORT).show();
                         navFunc.goToProfile(StockActivity.this);
                         break;
                     case R.id.fav:
-                        Toast.makeText(StockActivity.this, "Favorites",Toast.LENGTH_SHORT).show();
                         navFunc.goToFav(StockActivity.this);
                         break;
                     case R.id.news:
-                        Toast.makeText(StockActivity.this, "News",Toast.LENGTH_SHORT).show();
                         navFunc.goToNews(StockActivity.this);
                         break;
                     case R.id.stocks:
-                        Toast.makeText(StockActivity.this, "Stocks", Toast.LENGTH_SHORT).show();
 
                         break;
                     case R.id.crypto:
-                        Toast.makeText(StockActivity.this, "Cryptocurrency",Toast.LENGTH_SHORT).show();
                         navFunc.goToCrypto(StockActivity.this);
                         break;
                     case R.id.logout:
-                        Toast.makeText(StockActivity.this, "Sign Out",Toast.LENGTH_SHORT).show();
                         navFunc.logout(StockActivity.this);
                         break;
                     default:
@@ -130,6 +124,7 @@ public class StockActivity extends AppCompatActivity implements StockAdapter.OnS
 
     @Override
     public void onStockClick(View v, int position) {
+        Toast.makeText(this, "Loading info...", Toast.LENGTH_SHORT).show();
         StockModal stockModal = StockAdapter.stockModalArrayList.get(position);
         symbol = stockModal.getStockName();
         symbolName = StockAdapter.stockModalArrayList.get(position).getStockDescription();

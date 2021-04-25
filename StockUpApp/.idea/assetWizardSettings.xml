@@ -48,9 +48,8 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="$USER_HOME$/Downloads/star (1).png" />
+                                                <entry key="imagePath" value="$USER_HOME$/Desktop/MobileAppDev/Final-Project/WhiteStockUpLogoTrans.png" />
                                                 <entry key="opacityPercent" value="80" />
-                                                <entry key="paddingPercent" value="10" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -84,8 +83,9 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="imageAsset" value="$USER_HOME$/Downloads/star (1).png" />
-                                      <entry key="outputName" value="ic_action_logout" />
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="imageAsset" value="$USER_HOME$/Desktop/MobileAppDev/Final-Project/WhiteStockUpLogoTrans.png" />
+                                      <entry key="outputName" value="ic_logo" />
                                       <entry key="theme" value="HOLO_DARK" />
                                       <entry key="themeColor" value="ffe702" />
                                     </map>
@@ -312,6 +312,11 @@
                                 </PersistentState>
                               </value>
                             </entry>
+                          </map>
+                        </option>
+                        <option name="values">
+                          <map>
+                            <entry key="outputIconType" value="ACTIONBAR" />
                           </map>
                         </option>
                       </PersistentState>
