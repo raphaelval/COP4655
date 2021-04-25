@@ -2,6 +2,8 @@ package com.example.stockupapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -18,8 +20,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class PriceActivity extends AppCompatActivity {
 
+    int position;
     String symbol;
     String symbolName;
     String url;
@@ -33,15 +38,17 @@ public class PriceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_price);
+        populate();
+        /*Intent intent = getIntent();
+        symbol = intent.getStringExtra("symbol");
+        position = intent.getIntExtra("position", 0);
 
-        //TO GET SYMBOL FROM CLICK, ARRAYLIST.CONTAINS("SYMBOL")
-        //DETERMINE IF FROM STOCKS OR CRYPTO
-        //THEN USE ARRAYLIST.GET(ARRAYLIST.INDEXOF("SYMBOL"))."GET INFO..."
+        if (StockAdapter.stockModalArrayList.get(position).getStockName().equals(symbol)){
+            symbolName = StockAdapter.stockModalArrayList.get(position).getStockDescription();
+            url = "https://finnhub.io/api/v1/quote?symbol="+symbol+"&token=c1o84gq37fkqrr9sbte0";
+            getStockData();
+        }*/
 
-        symbol = "TSLA";
-        symbolName = "Tesla Inc.";
-        url = "https://finnhub.io/api/v1/quote?symbol="+symbol+"&token=c1o84gq37fkqrr9sbte0";
-        getStockData();
     }
 
     public void populate(){
@@ -55,17 +62,19 @@ public class PriceActivity extends AppCompatActivity {
         highPriceView = findViewById(R.id.highPriceView);
         lowPriceView = findViewById(R.id.lowPriceView);
 
-        symbolView.setText(symbol);
-        titleView.setText(symbolName);
-        priceView.setText(currentPrice);
-
-        timeView.setText(stockTime);
-        highPriceView.setText(highPrice);
-        lowPriceView.setText(lowPrice);
+        symbolView.setText(StockActivity.symbol);
+        titleView.setText(StockActivity.symbolName);
+        priceView.setText(StockActivity.currentPrice);
+        priceView.setTextColor(Color.parseColor(StockActivity.difColor));
+        difPriceView.setText(StockActivity.difPrice);
+        difPriceView.setTextColor(Color.parseColor(StockActivity.difColor));
+        timeView.setText(StockActivity.stockTime);
+        highPriceView.setText(StockActivity.highPrice);
+        lowPriceView.setText(StockActivity.lowPrice);
 
     }
 
-    public void getStockData() {
+    /*public void getStockData() {
         RequestQueue queue = Volley.newRequestQueue(this);
         // Request a string response from the provided URL.
         StringRequest newsRequest = new StringRequest(Request.Method.GET, url,
@@ -93,7 +102,7 @@ public class PriceActivity extends AppCompatActivity {
         });
         // Add the request to the RequestQueue.
         queue.add(newsRequest);
-    }
+    }*/
 
 
 }

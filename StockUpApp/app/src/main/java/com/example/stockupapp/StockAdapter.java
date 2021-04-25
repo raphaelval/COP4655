@@ -22,13 +22,15 @@ import java.util.List;
 
 public class StockAdapter extends RecyclerView.Adapter<StockAdapter.MyViewAdapter>{
 
-    ArrayList<StockModal> stockModalArrayList;
+    public static ArrayList<StockModal> stockModalArrayList;
     Context context;
 
+    private OnStockListener mOnStockListener;
 
-    public StockAdapter(Context ct, ArrayList<StockModal> stockModalArrayList){
+    public StockAdapter(Context ct, ArrayList<StockModal> stockModalArrayList, OnStockListener onStockListener){
         context = ct;
         this.stockModalArrayList = stockModalArrayList;
+        this.mOnStockListener = onStockListener;
     }
 
     public void filterList(ArrayList<StockModal> filterllist) {
@@ -45,7 +47,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.MyViewAdapte
     public StockAdapter.MyViewAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater Inflater = LayoutInflater.from(context);
         View view = Inflater.inflate(R.layout.stock_row, parent, false);
-        return new StockAdapter.MyViewAdapter(view);
+        return new StockAdapter.MyViewAdapter(view, mOnStockListener);
     }
 
     @Override
@@ -58,6 +60,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.MyViewAdapte
         } else {
             holder.favBtnView.setBackgroundResource(R.drawable.ic_action_fav_yellow);
         }
+
     }
 
     @Override
@@ -65,16 +68,19 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.MyViewAdapte
         return stockModalArrayList.size();
     }
 
-    public class MyViewAdapter extends RecyclerView.ViewHolder {
+    public class MyViewAdapter extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView symView, symDescView;
         ImageView favBtnView;
 
-        public MyViewAdapter(@NonNull View itemView) {
+        OnStockListener onStockListener;
+
+        public MyViewAdapter(@NonNull View itemView, OnStockListener onStockListener) {
             super(itemView);
             symView = itemView.findViewById(R.id.symbolText);
             symDescView = itemView.findViewById(R.id.descText);
             favBtnView = itemView.findViewById(R.id.favBtn);
+            this.onStockListener = onStockListener;
 
             favBtnView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -98,7 +104,18 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.MyViewAdapte
                     }
                 }
             });
+
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            onStockListener.onStockClick(view, getAdapterPosition());
+        }
+    }
+
+    public interface OnStockListener{
+        void onStockClick(View v, int position);
     }
 
 }

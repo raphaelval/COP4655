@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"
-        android:clickable="true"
+        android:clickable="false"
         app:cardBackgroundColor="#eee"
         app:cardCornerRadius="0dp"
         app:cardElevation="0dp"
@@ -48,11 +48,11 @@
                 android:id="@+id/favBtn"
                 android:layout_width="33dp"
                 android:layout_height="33dp"
-                app:tint="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_action_fav_gray"
+                app:tint="#000000"
                 tools:ignore="VectorDrawableCompat" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

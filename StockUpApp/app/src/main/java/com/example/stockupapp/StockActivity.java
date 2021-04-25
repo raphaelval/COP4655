@@ -8,18 +8,31 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class StockActivity extends AppCompatActivity {
+public class StockActivity extends AppCompatActivity implements StockAdapter.OnStockListener{
 
     RecyclerView recyclerView;
 
@@ -27,7 +40,21 @@ public class StockActivity extends AppCompatActivity {
     private ActionBarDrawerToggle t;
     private NavigationView nv;
     MyFunc navFunc = new MyFunc();
-    StockAdapter recyclerAdapter = new StockAdapter(this, MainActivity.stockModalArrayList);
+
+    private static DecimalFormat df = new DecimalFormat("0.00");
+
+    public static String symbol;
+    public static String symbolName;
+    public static String currentPrice;
+    public static String highPrice;
+    public static String lowPrice;
+    public static String stockTime;
+    public static String difPrice;
+    public static String difColor;
+
+    public static String url;
+
+    StockAdapter recyclerAdapter = new StockAdapter(StockActivity.this, MainActivity.stockModalArrayList, this::onStockClick);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +124,65 @@ public class StockActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void getStockPrice(){
+
+    }
+
+    @Override
+    public void onStockClick(View v, int position) {
+        StockModal stockModal = StockAdapter.stockModalArrayList.get(position);
+        symbol = stockModal.getStockName();
+        symbolName = StockAdapter.stockModalArrayList.get(position).getStockDescription();
+        url = "https://finnhub.io/api/v1/quote?symbol="+symbol+"&token=c1o84gq37fkqrr9sbte0";
+        RequestQueue queue = Volley.newRequestQueue(this);
+        // Request a string response from the provided URL.
+        StringRequest newsRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            currentPrice = jsonObject.getString("c");
+                            highPrice = jsonObject.getString("h");
+                            lowPrice = jsonObject.getString("l");
+                            stockTime = jsonObject.getString("t");
+                            String openPrice = jsonObject.getString("o");
+                            float o = Float.parseFloat(openPrice);
+                            float c = Float.parseFloat(currentPrice);
+                            float dif = c - o;
+                            if (dif < 0){
+                                difPrice = "DOWN $" + df.format(Math.abs(dif));
+                                difColor = "#E00000";
+                            } else {
+                                difPrice = "UP $" + df.format(dif);
+                                difColor = "#0FB800";
+                            }
+                            float fCurrentPrice = Float.parseFloat(currentPrice);
+                            float fHighPrice = Float.parseFloat(highPrice);
+                            float fLowPrice = Float.parseFloat(lowPrice);
+                            currentPrice = "$" + df.format(fCurrentPrice);
+                            highPrice = "$" + df.format(fHighPrice);
+                            lowPrice = "$" + df.format(fLowPrice);
+
+
+                        } catch (JSONException err) {
+                            Log.d("Error", err.toString());
+                        }
+                        Intent intent = new Intent(getApplicationContext(), PriceActivity.class);
+                        startActivity(intent);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(StockActivity.this, "Error retrieving info", Toast.LENGTH_LONG).show();
+            }
+        });
+        // Add the request to the RequestQueue.
+        queue.add(newsRequest);
+
+
     }
 
     @Override
