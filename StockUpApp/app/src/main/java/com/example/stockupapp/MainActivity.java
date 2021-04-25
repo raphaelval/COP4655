@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     public static String source [];
     public static String summary [];
     public static String newsUrl [];
+    public static String imageUrl [];
     public static ArrayList<StockModal> stockModalArrayList;
     public static ArrayList<CryptoModal> cryptoModalArrayList;
     public static ArrayList<String> favList = new ArrayList<>();
@@ -194,12 +195,14 @@ public class MainActivity extends AppCompatActivity {
                             source = new String[jsonObject.length()];
                             summary = new String[jsonObject.length()];
                             newsUrl = new String[jsonObject.length()];
+                            imageUrl = new String[jsonObject.length()];
                             for (int i=0;i<jsonObject.length();i++) {
                                 JSONObject news = jsonObject.getJSONObject(i);
                                 headline[i] = news.getString("headline");
                                 source[i] = news.getString("source");
                                 summary[i] = news.getString("summary");
                                 newsUrl[i] = news.getString("url");
+                                imageUrl[i] = news.getString("image");
                             }
 
 

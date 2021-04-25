@@ -7,13 +7,16 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class NewsActivity extends AppCompatActivity {
+public class NewsActivity extends AppCompatActivity implements NewsAdapter.OnNewsListener{
 
     RecyclerView recyclerView;
 
@@ -38,7 +41,7 @@ public class NewsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         NewsAdapter recyclerAdapter = new NewsAdapter(this, MainActivity.headline, MainActivity.source,
-                MainActivity.summary, MainActivity.newsUrl);
+                MainActivity.summary, MainActivity.newsUrl, MainActivity.imageUrl, this::onNewsClick);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -98,4 +101,10 @@ public class NewsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onNewsClick(View v, int position) {
+        Uri uri = Uri.parse(MainActivity.newsUrl[position]);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
+    }
 }
