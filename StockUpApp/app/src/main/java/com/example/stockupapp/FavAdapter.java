@@ -19,14 +19,19 @@ public class FavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     final int VIEW_TYPE_STOCKS = 0;
     final int VIEW_TYPE_CRYPTO = 1;
 
-    ArrayList<StockModal> stockModalArrayList;
-    ArrayList<CryptoModal> cryptoModalArrayList;
+    public static ArrayList<StockModal> stockModalArrayList;
+    public static ArrayList<CryptoModal> cryptoModalArrayList;
     Context context;
 
-    public FavAdapter(Context ct, ArrayList<StockModal> stockModalArrayList, ArrayList<CryptoModal> cryptoModalArrayList){
+    private OnStockListener mOnStockListener;
+    private OnCryptoListener mOnCryptoListener;
+
+    public FavAdapter(Context ct, ArrayList<StockModal> stockModalArrayList, ArrayList<CryptoModal> cryptoModalArrayList, OnStockListener onStockListener, OnCryptoListener onCryptoListener){
         context = ct;
         this.stockModalArrayList = stockModalArrayList;
         this.cryptoModalArrayList = cryptoModalArrayList;
+        this.mOnStockListener = onStockListener;
+        this.mOnCryptoListener = onCryptoListener;
     }
 
     public void filterList(ArrayList<StockModal> stockFilterlist, ArrayList<CryptoModal> cryptoFilterlist) {
@@ -48,12 +53,12 @@ public class FavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if(viewType == VIEW_TYPE_STOCKS){
             LayoutInflater Inflater = LayoutInflater.from(context);
             View view = Inflater.inflate(R.layout.fav_row, parent, false);
-            return new StockViewHolder(view);
+            return new StockViewHolder(view, mOnStockListener);
         }
         if(viewType == VIEW_TYPE_CRYPTO){
             LayoutInflater Inflater = LayoutInflater.from(context);
             View view = Inflater.inflate(R.layout.fav_row, parent, false);
-            return new CryptoViewHolder(view);
+            return new CryptoViewHolder(view, mOnCryptoListener);
         }
         return null;
     }
@@ -94,16 +99,19 @@ public class FavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return -1;
     }
 
-    class StockViewHolder extends RecyclerView.ViewHolder {
+    class StockViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView symView, symDescView;
         ImageView favBtnView;
 
-        public StockViewHolder(@NonNull View itemView) {
+        OnStockListener onStockListener;
+
+        public StockViewHolder(@NonNull View itemView, OnStockListener onStockListener) {
             super(itemView);
             symView = itemView.findViewById(R.id.symbolText);
             symDescView = itemView.findViewById(R.id.descText);
             favBtnView = itemView.findViewById(R.id.favBtn);
+            this.onStockListener = onStockListener;
 
             favBtnView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -127,6 +135,8 @@ public class FavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     }
                 }
             });
+
+            itemView.setOnClickListener(this);
         }
         public void populate (StockModal stockModal){
             symView.setText(stockModal.getStockName());
@@ -137,17 +147,30 @@ public class FavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 favBtnView.setBackgroundResource(R.drawable.ic_action_fav_yellow);
             }
         }
+
+        @Override
+        public void onClick(View view) {
+            onStockListener.onStockClick(view, getAdapterPosition());
+        }
     }
-    public class CryptoViewHolder extends RecyclerView.ViewHolder {
+
+    public interface OnStockListener{
+        void onStockClick(View v, int position);
+    }
+
+    public class CryptoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView symView, symDescView;
         ImageView favBtnView;
 
-        public CryptoViewHolder(@NonNull View itemView) {
+        OnCryptoListener onCryptoListener;
+
+        public CryptoViewHolder(@NonNull View itemView, OnCryptoListener onCryptoListener) {
             super(itemView);
             symView = itemView.findViewById(R.id.symbolText);
             symDescView = itemView.findViewById(R.id.descText);
             favBtnView = itemView.findViewById(R.id.favBtn);
+            this.onCryptoListener = onCryptoListener;
 
             favBtnView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -171,6 +194,7 @@ public class FavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     }
                 }
             });
+            itemView.setOnClickListener(this);
         }
         public void populate (CryptoModal cryptoModal){
             symView.setText(cryptoModal.getDisplaySymbol());
@@ -181,5 +205,13 @@ public class FavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 favBtnView.setBackgroundResource(R.drawable.ic_action_fav_yellow);
             }
         }
+
+        @Override
+        public void onClick(View view) {
+            onCryptoListener.onCryptoClick(view, getAdapterPosition());
+        }
+    }
+    public interface OnCryptoListener{
+        void onCryptoClick(View v, int position);
     }
 }

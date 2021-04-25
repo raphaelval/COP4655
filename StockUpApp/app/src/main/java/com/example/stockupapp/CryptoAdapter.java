@@ -19,12 +19,14 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.MyViewAdap
 
     Context context;
 
-    ArrayList<CryptoModal> cryptoModalArrayList;
+    public static ArrayList<CryptoModal> cryptoModalArrayList;
 
+    private CryptoAdapter.OnCryptoListener mOnCryptoListener;
 
-    public CryptoAdapter(Context ct, ArrayList<CryptoModal> cryptoModalArrayList){
+    public CryptoAdapter(Context ct, ArrayList<CryptoModal> cryptoModalArrayList, CryptoAdapter.OnCryptoListener onCryptoListener){
         context = ct;
         this.cryptoModalArrayList = cryptoModalArrayList;
+        this.mOnCryptoListener = onCryptoListener;
     }
 
     public void filterList(ArrayList<CryptoModal> filterllist) {
@@ -41,7 +43,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.MyViewAdap
     public CryptoAdapter.MyViewAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater Inflater = LayoutInflater.from(context);
         View view = Inflater.inflate(R.layout.crypto_row, parent, false);
-        return new CryptoAdapter.MyViewAdapter(view);
+        return new CryptoAdapter.MyViewAdapter(view, mOnCryptoListener);
     }
 
     @Override
@@ -62,17 +64,19 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.MyViewAdap
         return cryptoModalArrayList.size();
     }
 
-    public class MyViewAdapter extends RecyclerView.ViewHolder {
+    public class MyViewAdapter extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView cryptoSymView, cryptoSymDescView;
         ImageView favBtnView;
 
+        OnCryptoListener onCryptoListener;
 
-        public MyViewAdapter(@NonNull View itemView) {
+        public MyViewAdapter(@NonNull View itemView, OnCryptoListener onCryptoListener) {
             super(itemView);
             cryptoSymView = itemView.findViewById(R.id.cryptoSymbolText);
             cryptoSymDescView = itemView.findViewById(R.id.cryptoDescText);
             favBtnView = itemView.findViewById(R.id.favBtn);
+            this.onCryptoListener = onCryptoListener;
 
             favBtnView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -96,7 +100,18 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.MyViewAdap
                     }
                 }
             });
+
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            onCryptoListener.onCryptoClick(view, getAdapterPosition());
+        }
+    }
+
+    public interface OnCryptoListener{
+        void onCryptoClick(View v, int position);
     }
 
 }

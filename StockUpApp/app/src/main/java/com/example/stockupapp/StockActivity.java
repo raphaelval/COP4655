@@ -30,7 +30,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class StockActivity extends AppCompatActivity implements StockAdapter.OnStockListener{
 
@@ -126,10 +128,6 @@ public class StockActivity extends AppCompatActivity implements StockAdapter.OnS
         });
     }
 
-    public void getStockPrice(){
-
-    }
-
     @Override
     public void onStockClick(View v, int position) {
         StockModal stockModal = StockAdapter.stockModalArrayList.get(position);
@@ -165,6 +163,11 @@ public class StockActivity extends AppCompatActivity implements StockAdapter.OnS
                             currentPrice = "$" + df.format(fCurrentPrice);
                             highPrice = "$" + df.format(fHighPrice);
                             lowPrice = "$" + df.format(fLowPrice);
+                            long dateInMil = Long.parseLong(stockTime);
+                            Date date = new Date(Long.valueOf(dateInMil*1000L));
+                            SimpleDateFormat myDate = new SimpleDateFormat("EEE, MMM d, h:mm a");
+                            stockTime = myDate.format(date);
+                            PriceActivity.type = 0;
 
 
                         } catch (JSONException err) {

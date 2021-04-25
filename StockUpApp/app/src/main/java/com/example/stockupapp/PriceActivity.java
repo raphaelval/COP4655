@@ -2,10 +2,12 @@ package com.example.stockupapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,35 +26,20 @@ import java.util.ArrayList;
 
 public class PriceActivity extends AppCompatActivity {
 
-    int position;
-    String symbol;
-    String symbolName;
-    String url;
-
-    String currentPrice;
-    String highPrice;
-    String lowPrice;
-    String stockTime;
+    public static int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_price);
         populate();
-        /*Intent intent = getIntent();
-        symbol = intent.getStringExtra("symbol");
-        position = intent.getIntExtra("position", 0);
 
-        if (StockAdapter.stockModalArrayList.get(position).getStockName().equals(symbol)){
-            symbolName = StockAdapter.stockModalArrayList.get(position).getStockDescription();
-            url = "https://finnhub.io/api/v1/quote?symbol="+symbol+"&token=c1o84gq37fkqrr9sbte0";
-            getStockData();
-        }*/
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
     public void populate(){
-        TextView symbolView, titleView, priceView, difPriceView, timeView, highPriceView, lowPriceView;
+        TextView symbolView, titleView, priceView, difPriceView, timeView, highPriceView, lowPriceView, boldTopView, boldBottomView;
 
         symbolView = findViewById(R.id.symbolView);
         titleView = findViewById(R.id.titleView);
@@ -61,48 +48,41 @@ public class PriceActivity extends AppCompatActivity {
         timeView = findViewById(R.id.timeView);
         highPriceView = findViewById(R.id.highPriceView);
         lowPriceView = findViewById(R.id.lowPriceView);
+        boldTopView = findViewById(R.id.boldTopView);
+        boldBottomView = findViewById(R.id.boldBottomView);
 
-        symbolView.setText(StockActivity.symbol);
-        titleView.setText(StockActivity.symbolName);
-        priceView.setText(StockActivity.currentPrice);
-        priceView.setTextColor(Color.parseColor(StockActivity.difColor));
-        difPriceView.setText(StockActivity.difPrice);
-        difPriceView.setTextColor(Color.parseColor(StockActivity.difColor));
-        timeView.setText(StockActivity.stockTime);
-        highPriceView.setText(StockActivity.highPrice);
-        lowPriceView.setText(StockActivity.lowPrice);
+        if (type == 0) {
+            symbolView.setText(StockActivity.symbol);
+            titleView.setText(StockActivity.symbolName);
+            priceView.setText(StockActivity.currentPrice);
+            priceView.setTextColor(Color.parseColor(StockActivity.difColor));
+            difPriceView.setText(StockActivity.difPrice);
+            difPriceView.setTextColor(Color.parseColor(StockActivity.difColor));
+            timeView.setText(StockActivity.stockTime);
+            highPriceView.setText(StockActivity.highPrice);
+            lowPriceView.setText(StockActivity.lowPrice);
+        }
+        if (type == 1) {
+            symbolView.setText(CryptoActivity.symbol);
+            titleView.setText(CryptoActivity.symbolName);
+            priceView.setText(CryptoActivity.currentPrice);
+            difPriceView.setText(CryptoActivity.difPrice);
+            timeView.setText(CryptoActivity.stockTime);
+            highPriceView.setText(CryptoActivity.highPrice);
+            lowPriceView.setText(CryptoActivity.lowPrice);
+            boldTopView.setText(CryptoActivity.boldTop);
+            boldBottomView.setText(CryptoActivity.boldBottom);
+            boldBottomView.setTextColor(getResources().getColor(R.color.design_default_color_primary));
+            boldTopView.setTextColor(getResources().getColor(R.color.design_default_color_primary));
+        }
 
     }
 
-    /*public void getStockData() {
-        RequestQueue queue = Volley.newRequestQueue(this);
-        // Request a string response from the provided URL.
-        StringRequest newsRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            currentPrice = jsonObject.getString("c");
-                            highPrice = jsonObject.getString("h");
-                            lowPrice = jsonObject.getString("l");
-                            stockTime = jsonObject.getString("t");
-                            populate();
-
-                        } catch (JSONException err) {
-                            Log.d("Error", err.toString());
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(PriceActivity.this, "Error retrieving info", Toast.LENGTH_LONG).show();
-            }
-        });
-        // Add the request to the RequestQueue.
-        queue.add(newsRequest);
-    }*/
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        onBackPressed();
+        return true;
+    }
 
 
 }

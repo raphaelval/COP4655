@@ -8,18 +8,34 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class CryptoActivity extends AppCompatActivity {
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Currency;
+import java.util.Date;
+
+public class CryptoActivity extends AppCompatActivity implements CryptoAdapter.OnCryptoListener {
 
     RecyclerView recyclerView;
 
@@ -27,7 +43,23 @@ public class CryptoActivity extends AppCompatActivity {
     private ActionBarDrawerToggle t;
     private NavigationView nv;
     MyFunc navFunc = new MyFunc();
-    CryptoAdapter recyclerAdapter = new CryptoAdapter(this, MainActivity.cryptoModalArrayList);
+
+    private static DecimalFormat df = new DecimalFormat("0.0000");
+
+    public static String symbol;
+    public static String symbolName;
+    public static String currentPrice;
+    public static String highPrice;
+    public static String lowPrice;
+    public static String stockTime;
+    public static String difPrice;
+    public static String boldTop;
+    public static String boldBottom;
+    public static String difColor;
+
+    public static String url;
+
+    CryptoAdapter recyclerAdapter = new CryptoAdapter(this, MainActivity.cryptoModalArrayList, this::onCryptoClick);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,5 +185,62 @@ public class CryptoActivity extends AppCompatActivity {
             return true;
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCryptoClick(View v, int position) {
+        CryptoModal cryptoModal = CryptoAdapter.cryptoModalArrayList.get(position);
+        symbol = cryptoModal.getDisplaySymbol();
+        String fromCurr = symbol.substring(0, symbol.lastIndexOf("/"));
+        String toCurr = symbol.substring(symbol.lastIndexOf("/")+1);
+        symbolName = CryptoAdapter.cryptoModalArrayList.get(position).getStockDescription();
+        url = "https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=" + fromCurr + "&to_currency=" + toCurr + "&apikey=E9BO6GFXKGXN0757";
+        RequestQueue queue = Volley.newRequestQueue(this);
+        // Request a string response from the provided URL.
+        StringRequest newsRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONObject exchange = jsonObject.getJSONObject("Realtime Currency Exchange Rate");
+                            currentPrice = exchange.getString("5. Exchange Rate");
+                            highPrice = exchange.getString("2. From_Currency Name");
+                            lowPrice = exchange.getString("4. To_Currency Name");
+                            stockTime = exchange.getString("6. Last Refreshed");
+                            boldTop = "FROM";
+                            boldBottom = "TO";
+                            PriceActivity.type = 1;
+                            float fCurrentPrice = Float.parseFloat(currentPrice);
+                            currentPrice = df.format(fCurrentPrice) + " " + toCurr;
+                            /*long dateInMil = Long.parseLong(stockTime);
+                            Date date = new Date(Long.valueOf(dateInMil*1000L));
+                            SimpleDateFormat myDate = new SimpleDateFormat("EEE, MMM d, h:mm a");
+                            stockTime = myDate.format(date);*/
+
+
+                        } catch (JSONException err) {
+                            Log.d("Error", err.toString());
+                            highPrice = "NO INFO ON THIS EXCHANGE RATE";
+                            currentPrice = "N/A";
+                            stockTime = "-";
+                            lowPrice = "";
+                            boldBottom = "";
+                            boldTop = "";
+                            PriceActivity.type = 1;
+                        }
+                        Intent intent = new Intent(getApplicationContext(), PriceActivity.class);
+                        startActivity(intent);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(CryptoActivity.this, "Error retrieving info", Toast.LENGTH_LONG).show();
+            }
+        });
+        // Add the request to the RequestQueue.
+        queue.add(newsRequest);
+
+
     }
 }
