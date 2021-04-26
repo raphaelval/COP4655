@@ -1,4 +1,4 @@
-package com.example.stockupapp;
+package com.cop4655.z23464822;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -30,11 +30,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
-public class StockActivity extends AppCompatActivity implements StockAdapter.OnStockListener{
+public class CryptoActivity extends AppCompatActivity implements CryptoAdapter.OnCryptoListener {
 
     RecyclerView recyclerView;
 
@@ -43,7 +41,7 @@ public class StockActivity extends AppCompatActivity implements StockAdapter.OnS
     private NavigationView nv;
     MyFunc navFunc = new MyFunc();
 
-    private static DecimalFormat df = new DecimalFormat("0.00");
+    private static DecimalFormat df = new DecimalFormat("0.0000");
 
     public static String symbol;
     public static String symbolName;
@@ -52,16 +50,17 @@ public class StockActivity extends AppCompatActivity implements StockAdapter.OnS
     public static String lowPrice;
     public static String stockTime;
     public static String difPrice;
-    public static String difColor;
+    public static String boldTop;
+    public static String boldBottom;
 
     public static String url;
 
-    StockAdapter recyclerAdapter = new StockAdapter(StockActivity.this, MainActivity.stockModalArrayList, this::onStockClick);
+    CryptoAdapter recyclerAdapter = new CryptoAdapter(this, MainActivity.cryptoModalArrayList, this::onCryptoClick);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stock);
+        setContentView(R.layout.activity_crypto);
 
         MainActivity.mAuth = FirebaseAuth.getInstance();
         MainActivity.mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -69,7 +68,7 @@ public class StockActivity extends AppCompatActivity implements StockAdapter.OnS
 
         recyclerView = findViewById(R.id.recyclerView);
 
-        dl = (DrawerLayout)findViewById(R.id.activity_stock);
+        dl = (DrawerLayout)findViewById(R.id.activity_crypto);
         t = new ActionBarDrawerToggle(this, dl,R.string.Open, R.string.Close);
 
         dl.addDrawerListener(t);
@@ -94,22 +93,24 @@ public class StockActivity extends AppCompatActivity implements StockAdapter.OnS
                 switch(id)
                 {
                     case R.id.profile:
-                        navFunc.goToProfile(StockActivity.this);
+
+                        navFunc.goToProfile(CryptoActivity.this);
                         break;
+
                     case R.id.fav:
-                        navFunc.goToFav(StockActivity.this);
+                        navFunc.goToFav(CryptoActivity.this);
                         break;
                     case R.id.news:
-                        navFunc.goToNews(StockActivity.this);
+                        navFunc.goToNews(CryptoActivity.this);
                         break;
                     case R.id.stocks:
-
+                        navFunc.goToStocks(CryptoActivity.this);
                         break;
                     case R.id.crypto:
-                        navFunc.goToCrypto(StockActivity.this);
+
                         break;
                     case R.id.logout:
-                        navFunc.logout(StockActivity.this);
+                        navFunc.logout(CryptoActivity.this);
                         break;
                     default:
                         return true;
@@ -118,69 +119,9 @@ public class StockActivity extends AppCompatActivity implements StockAdapter.OnS
 
                 return true;
 
+
             }
         });
-    }
-
-    @Override
-    public void onStockClick(View v, int position) {
-        Toast.makeText(this, "Loading info...", Toast.LENGTH_SHORT).show();
-        StockModal stockModal = StockAdapter.stockModalArrayList.get(position);
-        symbol = stockModal.getStockName();
-        symbolName = StockAdapter.stockModalArrayList.get(position).getStockDescription();
-        url = "https://finnhub.io/api/v1/quote?symbol="+symbol+"&token=c1o84gq37fkqrr9sbte0";
-        RequestQueue queue = Volley.newRequestQueue(this);
-        // Request a string response from the provided URL.
-        StringRequest newsRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            currentPrice = jsonObject.getString("c");
-                            highPrice = jsonObject.getString("h");
-                            lowPrice = jsonObject.getString("l");
-                            stockTime = jsonObject.getString("t");
-                            String openPrice = jsonObject.getString("o");
-                            float o = Float.parseFloat(openPrice);
-                            float c = Float.parseFloat(currentPrice);
-                            float dif = c - o;
-                            if (dif < 0){
-                                difPrice = "DOWN $" + df.format(Math.abs(dif));
-                                difColor = "#E00000";
-                            } else {
-                                difPrice = "UP $" + df.format(dif);
-                                difColor = "#0FB800";
-                            }
-                            float fCurrentPrice = Float.parseFloat(currentPrice);
-                            float fHighPrice = Float.parseFloat(highPrice);
-                            float fLowPrice = Float.parseFloat(lowPrice);
-                            currentPrice = "$" + df.format(fCurrentPrice);
-                            highPrice = "$" + df.format(fHighPrice);
-                            lowPrice = "$" + df.format(fLowPrice);
-                            long dateInMil = Long.parseLong(stockTime);
-                            Date date = new Date(Long.valueOf(dateInMil*1000L));
-                            SimpleDateFormat myDate = new SimpleDateFormat("EEE, MMM d, h:mm a");
-                            stockTime = myDate.format(date);
-                            PriceActivity.type = 0;
-
-
-                        } catch (JSONException err) {
-                            Log.d("Error", err.toString());
-                        }
-                        Intent intent = new Intent(getApplicationContext(), PriceActivity.class);
-                        startActivity(intent);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(StockActivity.this, "Error retrieving info", Toast.LENGTH_LONG).show();
-            }
-        });
-        // Add the request to the RequestQueue.
-        queue.add(newsRequest);
-
-
     }
 
     @Override
@@ -206,10 +147,10 @@ public class StockActivity extends AppCompatActivity implements StockAdapter.OnS
 
     private void filter(String text) {
         // creating a new array list to filter our data.
-        ArrayList<StockModal> filteredlist = new ArrayList<>();
+        ArrayList<CryptoModal> filteredlist = new ArrayList<>();
 
         // running a for loop to compare elements.
-        for (StockModal item : MainActivity.stockModalArrayList) {
+        for (CryptoModal item : MainActivity.cryptoModalArrayList) {
             // checking if the entered string matched with any item of our recycler view.
             if ((item.getStockName().toLowerCase().contains(text.toLowerCase())) || (item.getStockDescription().toLowerCase().contains(text.toLowerCase()))) {
                 // if the item is matched we are
@@ -220,7 +161,6 @@ public class StockActivity extends AppCompatActivity implements StockAdapter.OnS
         if (filteredlist.isEmpty()) {
             // if no item is added in filtered list we are
             // displaying a toast message as no data found.
-            Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show();
         } else {
             // at last we are passing that filtered
             // list to our adapter class.
@@ -234,5 +174,63 @@ public class StockActivity extends AppCompatActivity implements StockAdapter.OnS
             return true;
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCryptoClick(View v, int position) {
+        Toast.makeText(this, "Loading info...", Toast.LENGTH_SHORT).show();
+        CryptoModal cryptoModal = CryptoAdapter.cryptoModalArrayList.get(position);
+        symbol = cryptoModal.getDisplaySymbol();
+        String fromCurr = symbol.substring(0, symbol.lastIndexOf("/"));
+        String toCurr = symbol.substring(symbol.lastIndexOf("/")+1);
+        symbolName = CryptoAdapter.cryptoModalArrayList.get(position).getStockDescription();
+        url = "https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=" + fromCurr + "&to_currency=" + toCurr + "&apikey=E9BO6GFXKGXN0757";
+        RequestQueue queue = Volley.newRequestQueue(this);
+        // Request a string response from the provided URL.
+        StringRequest newsRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONObject exchange = jsonObject.getJSONObject("Realtime Currency Exchange Rate");
+                            currentPrice = exchange.getString("5. Exchange Rate");
+                            highPrice = exchange.getString("2. From_Currency Name");
+                            lowPrice = exchange.getString("4. To_Currency Name");
+                            stockTime = exchange.getString("6. Last Refreshed");
+                            boldTop = "FROM";
+                            boldBottom = "TO";
+                            PriceActivity.type = 1;
+                            float fCurrentPrice = Float.parseFloat(currentPrice);
+                            currentPrice = df.format(fCurrentPrice) + " " + toCurr;
+                            /*long dateInMil = Long.parseLong(stockTime);
+                            Date date = new Date(Long.valueOf(dateInMil*1000L));
+                            SimpleDateFormat myDate = new SimpleDateFormat("EEE, MMM d, h:mm a");
+                            stockTime = myDate.format(date);*/
+
+
+                        } catch (JSONException err) {
+                            Log.d("Error", err.toString());
+                            highPrice = "NO INFO ON THIS EXCHANGE RATE";
+                            currentPrice = "N/A";
+                            stockTime = "-";
+                            lowPrice = "";
+                            boldBottom = "";
+                            boldTop = "";
+                            PriceActivity.type = 1;
+                        }
+                        Intent intent = new Intent(getApplicationContext(), PriceActivity.class);
+                        startActivity(intent);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(CryptoActivity.this, "Error retrieving info", Toast.LENGTH_LONG).show();
+            }
+        });
+        // Add the request to the RequestQueue.
+        queue.add(newsRequest);
+
+
     }
 }

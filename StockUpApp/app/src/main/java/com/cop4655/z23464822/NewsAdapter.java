@@ -1,11 +1,6 @@
-package com.example.stockupapp;
+package com.cop4655.z23464822;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewAdapter> {
 

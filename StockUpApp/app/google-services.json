@@ -1,10 +1,40 @@
 {
   "project_info": {
     "project_number": "278971310364",
+    "firebase_url": "https://stockupapp-1407a-default-rtdb.firebaseio.com",
     "project_id": "stockupapp-1407a",
     "storage_bucket": "stockupapp-1407a.appspot.com"
   },
   "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:278971310364:android:5ba1c364274f39652adad9",
+        "android_client_info": {
+          "package_name": "com.cop4655.z23464822"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "278971310364-e9m97jrcec4005iievhumb3jgi8ktcs4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQn6E2UN_TOGD-MPO38sgeby60eBrrcIc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "278971310364-e9m97jrcec4005iievhumb3jgi8ktcs4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
     {
       "client_info": {
         "mobilesdk_app_id": "1:278971310364:android:f00a4da4f306ff772adad9",
@@ -13,6 +43,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "278971310364-014bf8hoeghaf0i4kp01rql69f4lo68a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.stockupapp",
+            "certificate_hash": "99a166488c082f316773b5fbca5a0ea960e337ca"
+          }
+        },
         {
           "client_id": "278971310364-e9m97jrcec4005iievhumb3jgi8ktcs4.apps.googleusercontent.com",
           "client_type": 3

@@ -1,4 +1,4 @@
-package com.example.stockupapp;
+package com.cop4655.z23464822;
 
 import org.junit.Test;
 
