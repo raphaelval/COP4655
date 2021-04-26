@@ -89,11 +89,13 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.MyViewAdap
 
                     if (cryptoModal.getFavStatus() == 0){
                         cryptoModal.setFavStatus(1);
+                        MainActivity.cryptoCount++;
                         favBtnView.setBackgroundResource(R.drawable.ic_action_fav_yellow);
                         MainActivity.myRef.child(userID).child("favorites").child(cryptoModal.getStockName()).setValue("true");
                         Toast.makeText(context, "Added to favorites", Toast.LENGTH_SHORT).show();
                     } else {
                         cryptoModal.setFavStatus(0);
+                        MainActivity.cryptoCount--;
                         favBtnView.setBackgroundResource(R.drawable.ic_action_fav_gray);
                         MainActivity.myRef.child(userID).child("favorites").child(cryptoModal.getStockName()).removeValue();
                         Toast.makeText(context, "Removed from favorites", Toast.LENGTH_SHORT).show();

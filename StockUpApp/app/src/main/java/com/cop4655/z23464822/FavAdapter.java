@@ -124,11 +124,13 @@ public class FavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                     if (stockModal.getFavStatus() == 0) {
                         stockModal.setFavStatus(1);
+                        MainActivity.stocksCount++;
                         favBtnView.setBackgroundResource(R.drawable.ic_action_fav_yellow);
                         MainActivity.myRef.child(userID).child("favorites").child(stockModal.getStockName()).setValue("true");
                         Toast.makeText(context, "Added to favorites", Toast.LENGTH_SHORT).show();
                     } else {
                         stockModal.setFavStatus(0);
+                        MainActivity.stocksCount--;
                         favBtnView.setBackgroundResource(R.drawable.ic_action_fav_gray);
                         MainActivity.myRef.child(userID).child("favorites").child(stockModal.getStockName()).removeValue();
                         Toast.makeText(context, "Removed from favorites", Toast.LENGTH_SHORT).show();
@@ -183,11 +185,13 @@ public class FavAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                     if (cryptoModal.getFavStatus() == 0) {
                         cryptoModal.setFavStatus(1);
+                        MainActivity.cryptoCount++;
                         favBtnView.setBackgroundResource(R.drawable.ic_action_fav_yellow);
                         MainActivity.myRef.child(userID).child("favorites").child(cryptoModal.getStockName()).setValue("true");
                         Toast.makeText(context, "Added to favorites", Toast.LENGTH_SHORT).show();
                     } else {
                         cryptoModal.setFavStatus(0);
+                        MainActivity.cryptoCount--;
                         favBtnView.setBackgroundResource(R.drawable.ic_action_fav_gray);
                         MainActivity.myRef.child(userID).child("favorites").child(cryptoModal.getStockName()).removeValue();
                         Toast.makeText(context, "Removed from favorites", Toast.LENGTH_SHORT).show();

@@ -106,6 +106,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.googleSignIn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                stocksCount = 0;
+                cryptoCount = 0;
                 Toast.makeText(MainActivity.this, "Signing in...", Toast.LENGTH_SHORT).show();
                 signIn();
             }
@@ -131,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    //@Override
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 

@@ -88,11 +88,13 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.MyViewAdapte
 
                     if (stockModal.getFavStatus() == 0) {
                         stockModal.setFavStatus(1);
+                        MainActivity.stocksCount++;
                         favBtnView.setBackgroundResource(R.drawable.ic_action_fav_yellow);
                         MainActivity.myRef.child(userID).child("favorites").child(stockModal.getStockName()).setValue("true");
                         Toast.makeText(context, "Added to favorites", Toast.LENGTH_SHORT).show();
                     } else {
                         stockModal.setFavStatus(0);
+                        MainActivity.stocksCount--;
                         favBtnView.setBackgroundResource(R.drawable.ic_action_fav_gray);
                         MainActivity.myRef.child(userID).child("favorites").child(stockModal.getStockName()).removeValue();
                         Toast.makeText(context, "Removed from favorites", Toast.LENGTH_SHORT).show();
