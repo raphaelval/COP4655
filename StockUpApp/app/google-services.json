@@ -15,39 +15,10 @@
       },
       "oauth_client": [
         {
-          "client_id": "278971310364-e9m97jrcec4005iievhumb3jgi8ktcs4.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDQn6E2UN_TOGD-MPO38sgeby60eBrrcIc"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "278971310364-e9m97jrcec4005iievhumb3jgi8ktcs4.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:278971310364:android:f00a4da4f306ff772adad9",
-        "android_client_info": {
-          "package_name": "com.example.stockupapp"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "278971310364-014bf8hoeghaf0i4kp01rql69f4lo68a.apps.googleusercontent.com",
+          "client_id": "278971310364-crsgq3fvicl1qi3jupr6h10m0pk1omos.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.stockupapp",
+            "package_name": "com.cop4655.z23464822",
             "certificate_hash": "99a166488c082f316773b5fbca5a0ea960e337ca"
           }
         },

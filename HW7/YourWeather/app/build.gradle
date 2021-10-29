@@ -1,24 +1,15 @@
 plugins {
     id 'com.android.application'
-    id 'com.google.gms.google-services'
 }
 
 android {
-    signingConfigs {
-        release {
-            storeFile file('/Users/raphaelvalente/Documents/Dev/AndroidKeyStore')
-            storePassword 'gamertag'
-            keyAlias 'key0'
-            keyPassword 'gamertag'
-        }
-    }
-    compileSdkVersion 30
+    compileSdkVersion 29
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.cop4655.z23464822"
+        applicationId "com.example.yourweather"
         minSdkVersion 16
-        targetSdkVersion 30
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
@@ -29,7 +20,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
         }
     }
     compileOptions {
@@ -43,13 +33,10 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'com.google.firebase:firebase-auth:19.2.0'
-    implementation 'com.google.android.gms:play-services-auth:19.0.0'
-    implementation 'androidx.drawerlayout:drawerlayout:1.0.0'
-    implementation 'com.google.firebase:firebase-database:19.7.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.android.volley:volley:1.2.0'
-    implementation 'com.squareup.picasso:picasso:2.71828'
+
 }
